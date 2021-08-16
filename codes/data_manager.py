@@ -155,11 +155,11 @@ class Data:
                 print("モンスターの入力内容に誤りがあるのでもう一度やり直してください")
 
         # トレーナーカードの入力内容
-        if new_card["card_type"] == "Trainer":
+        elif new_card["card_type"] == "Trainer":
             pass
 
         # エネルギーカードの入力内容
-        if new_card["card_type"] == "Energy":
+        elif new_card["card_type"] == "Energy":
             while(1):
                 print("属性一覧：{}".format(checker.types))
                 new_card["color"] == input("エネルギーカードの属性：")
@@ -170,12 +170,15 @@ class Data:
                 print("エネルギーカードの入力内容に誤りがあるのでもう一度やりなおしてください")
 
         # 持ち物カードの入力内容
-        if new_card["card_type"] == "Accessory":
+        elif new_card["card_type"] == "Accessory":
             pass
 
         # スタジアムカードの入力内容
-        if new_card["card_type"] == "Stadium":
+        elif new_card["card_type"] == "Stadium":
             pass
+
+        print("登録情報")
+        print(new_card)
 
     def delete():
         """
