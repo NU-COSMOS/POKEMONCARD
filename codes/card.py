@@ -65,9 +65,9 @@ class Trainer(Card):
         super().__init__(name, card_type, img, main_id, sub_id)
 
 
-class Field(Card):
+class Stadium(Card):
     """
-    フィールドカード
+    スタジアムカード
     """
     def __init__(self, name, card_type, img, main_id, sub_id):
         super().__init__(name, card_type, img, main_id, sub_id)
