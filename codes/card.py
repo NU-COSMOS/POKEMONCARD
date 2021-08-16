@@ -33,8 +33,8 @@ class Monster(Card):
         self.skills = skills  # 技のlist
         self.weaks = weaks  # 弱点属性のlist
         self.resists = resists  # 抵抗属性のlist
-        self.escape = escape  # 逃げるのに必要なエネルギーカード
-        self.before = before  # 進化前のポケモンのsub_id
+        self.escape = escape  # 逃げるのに必要なエネルギーカードのlist
+        self.before = before  # 進化前のポケモン名
         self.status = status  # 状態異常
         self.has_energy = []  # ついているエネルギーカード
         self.has_item = []  # 持たせた道具
