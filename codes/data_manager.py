@@ -183,19 +183,42 @@ class Data:
         print(new_card)
         y_n = input("この内容でよろしいですか？(y/n)")
         if y_n == "y":
+
+            # カードデータの更新
             # 初めての登録の場合
             if not os.path.exists(save_path):
+                print("レポートが見つからないので新しく作成します")
                 with open(save_path, 'w') as f:
-                    print("レポートが見つからないので新しく作成します")
+                    new_card['main_id'] = 0
+                    new_card['sub_id'] = 0
                     card_data = {"cards": [new_card], "skills": [], "charas": []}
                     json.dump(card_data, f, indent = 4)
+
+            # 二回目以降
             else:
                 with open(save_path, 'r') as f:
                     card_data = json.load(f)
-                    print(card_data)
+
+                    # main_idはカードの枚数分存在
+                    new_card['main_id'] = len(card_data['cards'])
+
+                    # 付与すべきsub_idを検索
+                    flag = False
+                    max_sub_id = 0
+                    for card in card_data['cards']:
+                        if card['sub_id'] == max_sub_id:
+                            max_sub_id = card['sub_id'] + 1
+                        if card['name'] == new_card['name']:
+                            new_card['sub_id'] = card['sub_id']
+                            flag = True
+                            break
+                    if not flag:
+                        new_card['sub_id'] = max_sub_id
+
+                    # カードデータを更新
                     card_data["cards"].append(new_card)
 
-            # データを保存
+            # 更新されたカードデータを保存
             with open(save_path, 'w') as f:
                 json.dump(card_data, f, indent = 4)
             print("登録しました")
