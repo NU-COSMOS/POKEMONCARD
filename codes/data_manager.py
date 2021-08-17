@@ -3,6 +3,7 @@
 カード情報の管理
 """
 import os
+import json
 
 
 class Checker:
@@ -114,7 +115,7 @@ class Data:
     """
     データ操作オブジェクト
     """
-    def regist():
+    def regist(save_path):
         """
         新しいカードデータを登録
         """
@@ -177,8 +178,30 @@ class Data:
         elif new_card["card_type"] == "Stadium":
             pass
 
-        print("登録情報")
+        print("\n登録内容")
         print(new_card)
+
+        # 登録内容の確認フェーズ
+        y_n = input("この内容でよろしいですか？(y/n)")
+        if y_n == "y":
+            # 初めての登録の場合
+            if not os.path.exists(save_path):
+                with open(save_path, 'w') as f:
+                    print("レポートが見つからないので新しく作成します")
+                    card_data = {"cards": [new_card], "skills": [], "charas": []}
+                    json.dump(card_data, f, indent = 4)
+            else:
+                with open(save_path, 'r') as f:
+                    card_data = json.load(f)
+                    print(card_data)
+                    card_data["cards"].append(new_card)
+            # データを保存
+            with open(save_path, 'w') as f:
+                json.dump(card_data, f, indent = 4)
+            print("登録しました")
+        else:
+            print("入力を破棄しました")
+        print("操作を終了します")
 
     def delete():
         """
@@ -199,3 +222,5 @@ class Data:
         """
         カードデータの閲覧
         """
+
+Data.regist("../card_data.json")
