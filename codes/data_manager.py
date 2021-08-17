@@ -178,10 +178,9 @@ class Data:
         elif new_card["card_type"] == "Stadium":
             pass
 
+        # 登録内容の確認フェーズ
         print("\n登録内容")
         print(new_card)
-
-        # 登録内容の確認フェーズ
         y_n = input("この内容でよろしいですか？(y/n)")
         if y_n == "y":
             # 初めての登録の場合
@@ -195,6 +194,7 @@ class Data:
                     card_data = json.load(f)
                     print(card_data)
                     card_data["cards"].append(new_card)
+
             # データを保存
             with open(save_path, 'w') as f:
                 json.dump(card_data, f, indent = 4)
