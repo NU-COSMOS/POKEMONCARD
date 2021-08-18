@@ -13,20 +13,34 @@ class Checker:
     def __init__(self):
         self.card_types = ["Monster", "Trainer", "Accessory", "Energy", "Stadium"]
         self.types = ["炎", "水", "電気", "無", "闘", "悪", "鋼", "超", "草", "妖", "竜", "None"]
+        self.message = {'type_error': '存在しない属性が入力されています', 
+                        'none_error': 'Noneを選択した場合、その項目に別の属性を入力しないでください', 
+                        'hp_error': '体力の数値が不正です', 
+                        'path_error': '指定されたパスは存在しません', 
+                        'dtype_error': '入力値が想定と異なります'}
 
     def common(self, card):
         """
         共通項目
         """
         res = []
+        messages = []
         # カード名が文字列かどうかチェック
         res.append(type(card["name"]) == str)
+        messages.append(self.message['dtype_error'])
 
         # カードタイプが存在するものかどうかチェック
         res.append(card["card_type"] in self.card_types)
+        messages.append(self.message['type_error'])
 
         # イラストが存在するかチェック
         res.append(os.path.isfile(card["img"]))
+        messages.append(self.message['path_error'])
+
+        # エラー文を表示
+        for i, m in zip(res, messages):
+            if not i:
+                print(m)
 
         return all(res)
 
@@ -35,46 +49,64 @@ class Checker:
         モンスター
         """
         res = []
+        messages = []
         # 体力が10の倍数かつ0以下でないか
-        res.append(card["hp"] % 10 == 0 and card["hp"] <= 0)
+        res.append(card["hp"] % 10 == 0 and card["hp"] > 0)
+        messages.append(self.message['hp_error'])
 
         # タイプに存在するものが入力されているか
         for t in card["types"]:
             res.append(t in self.types)
+            messages.append(self.message['type_error'])
 
         # タイプにNoneが含まれていないか
         res.append("None" not in card["types"])
+        messages.append(self.message['none_error'])
 
         # 弱点属性に存在するものが入力されているか
         for weak in card["weaks"]:
             res.append(weak in self.types)
+            messages.append(self.message['type_error'])
 
         # 弱点属性にNoneが含まれている場合, Noneだけか
         res.append(self.none_only(card["weaks"]))
+        messages.append(self.message['none_error'])
 
         # 抵抗属性に存在するものが入力されているか
         for resist in card["resists"]:
             res.append(resist in self.types)
+            messages.append(self.message['type_error'])
 
         # 抵抗属性にNoneが含まれている場合, Noneだけか
         res.append(self.none_only(card["resists"]))
+        messages.append(self.message['none_error'])
 
         # 逃げるためのエネルギーは存在するものが入力されているか
         for escape in card["escape"]:
             res.append(escape in self.types)
+            messages.append(self.message['type_error'])
 
         # 逃げるエネルギーにNoneが含まれている場合, Noneだけか
         res.append(self.none_only(card["escape"]))
+        messages.append(self.message['none_error'])
 
         # 特性名はstrか
         res.append(type(card["chara"]) == str)
+        messages.append(self.message['dtype_error'])
 
         # 技名を一つずつ確認
         for skill in card["skills"]:
             res.append(type(skill) == str)
+            messages.append(self.message['dtype_error'])
 
         # 進化前orたねがstrで入力されているか
         res.append(type(card["before"]) == str)
+        messages.append(self.message['dtype_error'])
+
+        # エラー文を表示
+        for i, m in zip(res, messages):
+            if not i:
+                print(m)
 
         return all(res)
 
@@ -93,15 +125,17 @@ class Checker:
         エネルギーカード
         """
         res = []
+        messages = []
         # 存在する属性が入力されているか
         res.append(card["color"] in self.types)
+        messages.append(self.message['type_error'])
 
     def stadium(self, card):
         """
         スタジアムカード
         """
 
-    def none_only(list):
+    def none_only(self, list):
         """
         Noneの文字列が入っていた場合、それだけしか入っていないことを確認
         """
