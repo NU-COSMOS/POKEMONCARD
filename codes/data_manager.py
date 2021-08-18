@@ -38,9 +38,7 @@ class Checker:
         messages.append(self.message['path_error'])
 
         # エラー文を表示
-        for i, m in zip(res, messages):
-            if not i:
-                print(m)
+        self.print_error(res, messages)
 
         return all(res)
 
@@ -104,9 +102,7 @@ class Checker:
         messages.append(self.message['dtype_error'])
 
         # エラー文を表示
-        for i, m in zip(res, messages):
-            if not i:
-                print(m)
+        self.print_error(res, messages)
 
         return all(res)
 
@@ -130,6 +126,11 @@ class Checker:
         res.append(card["color"] in self.types)
         messages.append(self.message['type_error'])
 
+        # エラー文を表示
+        self.print_error(res, messages)
+
+        return all(res)
+
     def stadium(self, card):
         """
         スタジアムカード
@@ -143,6 +144,11 @@ class Checker:
             return len(list == 1)
         else:
             return True
+
+    def print_error(self, res, messages):
+        for i, m in zip(res, messages):
+            if not i:
+                print(m)
 
 
 class Data:
