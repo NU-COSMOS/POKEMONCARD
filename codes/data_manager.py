@@ -200,8 +200,12 @@ class Data:
                     break
                 print("モンスターの入力内容に誤りがあるのでもう一度やり直してください")
 
-        # トレーナーカードの入力内容
-        elif new_card["card_type"] == "Trainer":
+        # サポートカードの入力内容
+        elif new_card["card_type"] == "Support":
+            pass
+
+        # グッズカードの入力内容
+        elif new_card["card_type"] == "Goods":
             pass
 
         # エネルギーカードの入力内容
