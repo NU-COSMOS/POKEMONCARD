@@ -57,9 +57,17 @@ class Energy(Card):
         self.color = color  # エネルギーの色
 
 
-class Trainer(Card):
+class Support(Card):
     """
-    トレーナーカード
+    サポートカード
+    """
+    def __init__(self, name, card_type, img, main_id, sub_id):
+        super().__init__(name, card_type, img, main_id, sub_id)
+
+
+class Goods(Card):
+    """
+    グッズカード
     """
     def __init__(self, name, card_type, img, main_id, sub_id):
         super().__init__(name, card_type, img, main_id, sub_id)

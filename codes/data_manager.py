@@ -11,7 +11,7 @@ class Checker:
     各項目の入力内容をチェック
     """
     def __init__(self):
-        self.card_types = ["Monster", "Trainer", "Accessory", "Energy", "Stadium"]
+        self.card_types = ["Monster", "Support", "Accessory", "Energy", "Stadium", "Goods"]
         self.types = ["炎", "水", "電気", "無", "闘", "悪", "鋼", "超", "草", "妖", "竜", "None"]
         self.message = {'type_error': '存在しない属性が入力されています', 
                         'none_error': 'Noneを選択した場合、その項目に別の属性を入力しないでください', 
@@ -106,7 +106,7 @@ class Checker:
 
         return all(res)
 
-    def trainer(self, card):
+    def support(self, card):
         """
         トレーナー
         """
@@ -114,6 +114,11 @@ class Checker:
     def accessory(self, card):
         """
         持ち物
+        """
+
+    def goods(self, card):
+        """
+        グッズカード
         """
 
     def energy(self, card):
@@ -168,7 +173,7 @@ class Data:
         # 共通項目を入力
         while(1):
             new_card["name"] = input("カード名：")
-            new_card["card_type"] = input("カードの種類(Monster, Trainer, Accessory, Energy, Stadium)：")
+            new_card["card_type"] = input("カードの種類(Monster, Support, Accessory, Energy, Stadium, Goods)：")
             new_card["img"] = input("カードイラストのパス：")
 
             # 入力内容をチェック
