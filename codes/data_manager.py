@@ -13,6 +13,7 @@ class Checker:
     def __init__(self):
         self.card_types = ["Monster", "Support", "Accessory", "Energy", "Stadium", "Goods"]
         self.types = ["炎", "水", "電気", "無", "闘", "悪", "鋼", "超", "草", "妖", "竜", "None"]
+        self.status = [None, "毒", "まひ", "眠り", "氷", "やけど"]
         self.message = {'type_error': '存在しない属性が入力されています', 
                         'none_error': 'Noneを選択した場合、その項目に別の属性を入力しないでください', 
                         'hp_error': '体力の数値が不正です', 
@@ -155,6 +156,12 @@ class Checker:
             if not i:
                 print(m)
 
+    def damage(dmg):
+        """
+        ダメージの値をチェック
+        """
+        return type(dmg) == int and dmg % 10 == 0
+
 
 class Data:
     """
@@ -169,6 +176,9 @@ class Data:
 
         # 入力内容のチェッカー
         checker = Checker()
+
+        # カード効果記述クラス
+        skill = Skill()
 
         # 共通項目を入力
         while(1):
@@ -192,7 +202,7 @@ class Data:
                 new_card["resists"] = input("モンスターの抵抗属性(例：炎,水)：").split(",")
                 new_card["escape"] = input("モンスターが逃げるのに必要なエネルギー(例：炎,炎)：").split(",")
                 new_card["chara"] = input("特性名：")
-                new_card["skills"] = input("技名(例：なきごえ,たいあたり)：").split(",")
+                new_card["skills"] = skill.regist(input("技名(例：なきごえ,たいあたり)：").split(","))
                 new_card["before"] = input("進化前(たね or ポケモン名)：")
 
                 # 入力内容をチェック
@@ -202,7 +212,7 @@ class Data:
 
         # サポートカードの入力内容
         elif new_card["card_type"] == "Support":
-            pass
+            new_card["skills"] = skill.construct()
 
         # グッズカードの入力内容
         elif new_card["card_type"] == "Goods":
@@ -294,5 +304,49 @@ class Data:
         """
         カードデータの閲覧
         """
+
+
+class Skill:
+    """
+    カードの効果を構成
+    """
+    def regist(self, skill_list):
+        """
+        カード効果を組み立てる
+        """
+        skills = {}
+        for skill in skill_list:
+            skills[skill] = self.construct()
+
+        return skills
+
+    def construct():
+        """
+        スキルブロックを積み上げる
+        """
+        checker = Checker()
+        blocks = []
+        while(1):
+            block = input("選択肢(damage, status)：")
+            if block == "damage":
+                while(1):
+                    dmg = input("ダメージを入力してください：")
+                    if checker.damage(dmg):
+                        break
+                    print("ダメージの入力が不正です")
+                blocks.append([block, dmg])
+
+            elif block == "status":
+                while(1):
+                    status = input("状態異常を入力してください(無し, 毒, まひ, 眠り, 氷, やけど)：")
+                    if status in checker.status:
+                        break
+                    print("存在しない状態異常が入力されました")
+                blocks.append([block, status])
+
+            elif block == "Q":
+                break
+
+        return blocks
 
 Data.regist("../card_data.json")
