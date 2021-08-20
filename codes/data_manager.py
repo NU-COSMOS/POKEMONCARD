@@ -156,7 +156,7 @@ class Checker:
             if not i:
                 print(m)
 
-    def damage(dmg):
+    def damage(self, dmg):
         """
         ダメージの値をチェック
         """
@@ -320,17 +320,17 @@ class Skill:
 
         return skills
 
-    def construct():
+    def construct(self):
         """
         スキルブロックを積み上げる
         """
         checker = Checker()
         blocks = []
         while(1):
-            block = input("選択肢(damage, status)：")
+            block = input("選択肢(damage, status, Q)：")
             if block == "damage":
                 while(1):
-                    dmg = input("ダメージを入力してください：")
+                    dmg = int(input("ダメージを入力してください："))
                     if checker.damage(dmg):
                         break
                     print("ダメージの入力が不正です")
