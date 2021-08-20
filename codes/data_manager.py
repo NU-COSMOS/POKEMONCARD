@@ -316,6 +316,7 @@ class Skill:
         """
         skills = {}
         for skill in skill_list:
+            print(skill, "の効果：")
             skills[skill] = self.construct()
 
         return skills
@@ -327,7 +328,7 @@ class Skill:
         checker = Checker()
         blocks = []
         while(1):
-            block = input("選択肢(damage, status, Q)：")
+            block = input("選択肢(damage, status)：")
             if block == "damage":
                 while(1):
                     dmg = int(input("ダメージを入力してください："))
@@ -346,6 +347,8 @@ class Skill:
 
             elif block == "Q":
                 break
+
+            print("終了する場合はQ")
 
         return blocks
 
