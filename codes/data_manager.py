@@ -216,7 +216,7 @@ class Data:
         elif new_card["card_type"] == "Energy":
             while(1):
                 print("属性一覧：{}".format(checker.types))
-                new_card["color"] == input("エネルギーカードの属性：")
+                new_card["color"] = input("エネルギーカードの属性：")
 
                 # 入力内容をチェック
                 if checker.energy(new_card):
