@@ -24,7 +24,7 @@ class Monster(Card):
                  img, cur_hp, max_hp, types, 
                  chara, skills, weaks, 
                  resists, escape, before, 
-                 main_id, sub_id, status = "無し"):
+                 main_id, sub_id, status = "None"):
         super().__init__(name, card_type, img, main_id, sub_id)
         self.cur_hp = cur_hp  # 現在の体力
         self.max_hp = max_hp  # 体力の最大値

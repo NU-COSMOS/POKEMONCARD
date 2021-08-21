@@ -13,7 +13,7 @@ class Checker:
     def __init__(self):
         self.card_types = ["Monster", "Support", "Accessory", "Energy", "Stadium", "Goods"]
         self.types = ["炎", "水", "電気", "無", "闘", "悪", "鋼", "超", "草", "妖", "竜", "None"]
-        self.status = [None, "毒", "まひ", "眠り", "氷", "やけど"]
+        self.status = ["None", "毒", "まひ", "眠り", "氷", "やけど"]
         self.message = {'type_error': '存在しない属性が入力されています', 
                         'none_error': 'Noneを選択した場合、その項目に別の属性を入力しないでください', 
                         'hp_error': '体力の数値が不正です', 
@@ -88,10 +88,6 @@ class Checker:
         # 逃げるエネルギーにNoneが含まれている場合, Noneだけか
         res.append(self.none_only(card["escape"]))
         messages.append(self.message['none_error'])
-
-        # 特性名はstrか
-        res.append(type(card["chara"]) == str)
-        messages.append(self.message['dtype_error'])
 
         # 技に必要なエネルギーを確認
         for skill in card["skills"]:
@@ -199,7 +195,7 @@ class Data:
                 new_card["weaks"] = input("モンスターの弱点属性(例：炎,水)：").split(",")
                 new_card["resists"] = input("モンスターの抵抗属性(例：炎,水)：").split(",")
                 new_card["escape"] = input("モンスターが逃げるのに必要なエネルギー(例：炎,炎)：").split(",")
-                new_card["chara"] = input("特性名：")
+                # new_card["chara"] = input("特性名：")
                 new_card["skills"] = Skill.regist(input("技名(例：なきごえ,たいあたり)：").split(","))
                 new_card["before"] = input("進化前(たね or ポケモン名)：")
 
