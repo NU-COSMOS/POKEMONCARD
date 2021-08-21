@@ -93,10 +93,11 @@ class Checker:
         res.append(type(card["chara"]) == str)
         messages.append(self.message['dtype_error'])
 
-        # 技名を一つずつ確認
+        # 技に必要なエネルギーを確認
         for skill in card["skills"]:
-            res.append(type(skill) == str)
-            messages.append(self.message['dtype_error'])
+            for e in skill["energy"]:
+                res.append(e in self.types)
+                messages.append(self.message['type_error'])
 
         # 進化前orたねがstrで入力されているか
         res.append(type(card["before"]) == str)
@@ -177,9 +178,6 @@ class Data:
         # 入力内容のチェッカー
         checker = Checker()
 
-        # カード効果記述クラス
-        skill = Skill()
-
         # 共通項目を入力
         while(1):
             new_card["name"] = input("カード名：")
@@ -202,7 +200,7 @@ class Data:
                 new_card["resists"] = input("モンスターの抵抗属性(例：炎,水)：").split(",")
                 new_card["escape"] = input("モンスターが逃げるのに必要なエネルギー(例：炎,炎)：").split(",")
                 new_card["chara"] = input("特性名：")
-                new_card["skills"] = skill.regist(input("技名(例：なきごえ,たいあたり)：").split(","))
+                new_card["skills"] = Skill.regist(input("技名(例：なきごえ,たいあたり)：").split(","))
                 new_card["before"] = input("進化前(たね or ポケモン名)：")
 
                 # 入力内容をチェック
@@ -212,7 +210,7 @@ class Data:
 
         # サポートカードの入力内容
         elif new_card["card_type"] == "Support":
-            new_card["skills"] = skill.construct()
+            new_card["skills"] = Skill.construct()
 
         # グッズカードの入力内容
         elif new_card["card_type"] == "Goods":
@@ -250,7 +248,7 @@ class Data:
                 with open(save_path, 'w') as f:
                     new_card['main_id'] = 0
                     new_card['sub_id'] = 0
-                    card_data = {"cards": [new_card], "skills": [], "charas": []}
+                    card_data = {"cards": [new_card]}
                     json.dump(card_data, f, indent = 4)
 
             # 二回目以降
@@ -305,23 +303,32 @@ class Data:
         カードデータの閲覧
         """
 
+    def deck_make():
+        """
+        カードデータからデッキを作成
+        """
+
 
 class Skill:
     """
     カードの効果を構成
     """
-    def regist(self, skill_list):
+    def regist(skills):
         """
         カード効果を組み立てる
         """
-        skills = {}
-        for skill in skill_list:
-            print(skill, "の効果：")
-            skills[skill] = self.construct()
+        skill_list = []
+        for skill_name in skills:
+            skill = {}
+            print(skill_name, "の内容")
+            skill["name"] = skill_name
+            skill["block"] = Skill.construct()
+            skill["energy"] = Skill.need_energy()
+            skill_list.append(skill)
 
-        return skills
+        return skill_list
 
-    def construct(self):
+    def construct():
         """
         スキルブロックを積み上げる
         """
@@ -351,5 +358,12 @@ class Skill:
             print("終了する場合はQ")
 
         return blocks
+
+    def need_energy():
+        """
+        技を塚角に必要なエネルギーカードを登録する
+        """
+        energies = input("必要なエネルギー(例：炎,炎)：").split(",")
+        return energies
 
 Data.regist("../card_data.json")
