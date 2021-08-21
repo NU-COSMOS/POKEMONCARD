@@ -279,7 +279,7 @@ class Data:
 
             # 更新されたカードデータを保存
             with open(save_path, 'w') as f:
-                json.dump(card_data, f, indent = 4)
+                json.dump(card_data, f, indent = 4, ensure_ascii = False)
             print("登録しました")
         else:
             print("入力を破棄しました")
