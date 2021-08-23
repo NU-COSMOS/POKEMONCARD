@@ -12,5 +12,5 @@ class Area:
         self.bench = []  # ベンチ
         self.trash = []  # トラッシュ
         self.sides = []  # サイド
-        self.max_sides = len(deck) // 10  # サイドにおける枚数
+        self.max_sides = deck.remain() // 10  # サイドにおける枚数
         self.studium = []  # スタジアムカード置き場
