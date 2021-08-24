@@ -292,19 +292,31 @@ class Data:
         # 入力内容のチェッカー
         checker = Checker() 
 
-        # カード効果記述クラス
-        skill = Skill()        
-
         with open(save_path, 'r') as f:
             card_data = json.load(f)             
+
+        name_part        = input("修正するカード名(一部でも可)を入力し, IDを取得してください:")
+        hits_num         = 0
+
+        for card in card_data['cards']:
+            if name_part in card['name']:
+                if hits_num == 0:
+                    name_ID_dict = {card['name']:card['main_id']}
+                else:
+                    name_ID_dict[card['name']] = card['main_id']
+                hits_num = hits_num + 1
+
+        print(hits_num,"件ヒットしました")
+
+        for k, v in name_ID_dict.items():
+            print(k,"ID:",v)
 
         main_id     = int(input("情報を更新するカードのIDを入力してください："))
         card_type   = input("修正後のカードタイプを入力してください\n修正しない場合は修正前のタイプを入力してください\n(Monster, Support, Accessory, Energy, Stadium, Goods):")
         
         if card_type == "Monster":
             print("0:カード名 1:画像パス 2:体力 3:モンスターのタイプ 4:弱点属性 5:抵抗属性 6:逃げるのに必要なエネルギー 7:特性名 8:技名 9:進化前")
-            update_list_str = input("修正する項目を数字で選択してください(複数可) (例：0,1):").split(",")
-            update_list_int = [int(s) for s in update_list_str]
+            update_list_int = list(map(int, input("修正する項目を数字で選択してください(複数可) (例：0,1):").split(",")))
 
             for update_num in update_list_int:
                 while(1):
@@ -325,7 +337,7 @@ class Data:
                     elif update_num == 7:
                         card_data["cards"][main_id]["chara"]     = input("特性名：")
                     elif update_num == 8:
-                        card_data["cards"][main_id]["skills"]    = skill.regist(input("技名(例：なきごえ,たいあたり)：").split(","))
+                        card_data["cards"][main_id]["skills"]    = Skill.regist(input("技名(例：なきごえ,たいあたり)：").split(","))
                     elif update_num == 9:
                         card_data["before"][main_id]["skills"]   = input("進化前(たね or ポケモン名)：")
 
