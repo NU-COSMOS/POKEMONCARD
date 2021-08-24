@@ -284,11 +284,101 @@ class Data:
         登録済みのカードデータを削除
         """
     
-    def update():
+    def update(save_path):
         """
         登録済みのカードデータの内容を更新
         """
-    
+
+        # 入力内容のチェッカー
+        checker = Checker() 
+
+        with open(save_path, 'r') as f:
+            card_data = json.load(f)             
+
+        name_part        = input("修正するカード名(一部でも可)を入力し, IDを取得してください:")
+
+        # 入力したカード名のヒット件数 初期値:0
+        hits_num         = 0
+
+        # 入力したカード名の照会
+        for card in card_data['cards']:
+            if name_part in card['name']:
+                if hits_num == 0:
+                    name_ID_dict = {card['name']:card['main_id']}
+                else:
+                    name_ID_dict[card['name']] = card['main_id']
+                hits_num = hits_num + 1
+
+        print(hits_num,"件ヒットしました")
+
+        # ヒットしたカード名とIDの出力
+        for k, v in name_ID_dict.items():
+            print(k,"ID:",v)
+
+        main_id     = int(input("情報を更新するカードのIDを入力してください："))
+        card_type   = input("修正後のカードタイプを入力してください\n修正しない場合は修正前のタイプを入力してください\n(Monster, Support, Accessory, Energy, Stadium, Goods):")
+        
+        if card_type == "Monster":
+            print("0:カード名 1:画像パス 2:体力 3:モンスターのタイプ 4:弱点属性 5:抵抗属性 6:逃げるのに必要なエネルギー 7:特性名 8:技名 9:進化前")
+            update_list_int = list(map(int, input("修正する項目を数字で選択してください(複数可) (例：0,1):").split(",")))
+
+            for update_num in update_list_int:
+                while(1):
+                    if update_num == 0:
+                        card_data["cards"][main_id]["name"]      = input("カード名：")
+                    elif update_num == 1:
+                        card_data["cards"][main_id]["img"]       = input("カードイラストのパス：")
+                    elif update_num == 2:
+                        card_data["cards"][main_id]["hp"]        = int(input("モンスターの体力：")) 
+                    elif update_num == 3: 
+                        card_data["cards"][main_id]["types"]     = input("モンスターのタイプ(例：炎,水)：").split(",")         
+                    elif update_num == 4: 
+                        card_data["cards"][main_id]["weaks"]     = input("モンスターの弱点属性(例：炎,水)：").split(",")
+                    elif update_num == 5:
+                        card_data["cards"][main_id]["resists"]   = input("モンスターの抵抗属性(例：炎,水)：").split(",")
+                    elif update_num == 6:
+                        card_data["cards"][main_id]["escape"]    = input("モンスターが逃げるのに必要なエネルギー(例：炎,炎)：").split(",")
+                    elif update_num == 7:
+                        card_data["cards"][main_id]["chara"]     = input("特性名：")
+                    elif update_num == 8:
+                        card_data["cards"][main_id]["skills"]    = Skill.regist(input("技名(例：なきごえ,たいあたり)：").split(","))
+                    elif update_num == 9:
+                        card_data["before"][main_id]["skills"]   = input("進化前(たね or ポケモン名)：")
+
+                    if 0 <= update_num <= 1:
+                        if checker.common(card_data["cards"][main_id]):
+                            break
+                        print("入力内容に誤りがあるのでもう一度やり直してください") 
+                    elif 2 <= update_num <= 9:
+                        if checker.monster(card_data["cards"][main_id]):
+                            break
+                        print("モンスターの入力内容に誤りがあるのでもう一度やり直してください")                    
+
+        elif card_type == "Support":  
+            pass  
+        elif card_type == "Goods":
+            pass
+        elif card_type == "Energy": 
+            pass
+        elif card_type == "Accessory":  
+            pass
+        elif card_type == "Stadium":
+            pass 
+
+        # 登録内容の確認フェーズ
+        print("\n登録内容")
+        print(card_data["cards"][main_id])
+        y_n = input("この内容でよろしいですか？(y/n)")
+
+        if y_n == "y":
+            # 修正されたカードデータを保存
+            with open(save_path, 'w') as f:
+                json.dump(card_data, f, indent = 4)
+            print("修正内容を登録しました") 
+        else:
+             print("入力を破棄しました")
+        print("操作を終了します")                                                        
+
     def search():
         """
         カードデータの検索
@@ -362,4 +452,5 @@ class Skill:
         energies = input("必要なエネルギー(例：炎,炎)：").split(",")
         return energies
 
-Data.regist("../card_data.json")
+#Data.regist("../card_data.json")
+Data.update("../card_data.json")
