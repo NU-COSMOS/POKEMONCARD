@@ -296,8 +296,11 @@ class Data:
             card_data = json.load(f)             
 
         name_part        = input("修正するカード名(一部でも可)を入力し, IDを取得してください:")
+
+        # 入力したカード名のヒット件数 初期値:0
         hits_num         = 0
 
+        # 入力したカード名の照会
         for card in card_data['cards']:
             if name_part in card['name']:
                 if hits_num == 0:
@@ -308,6 +311,7 @@ class Data:
 
         print(hits_num,"件ヒットしました")
 
+        # ヒットしたカード名とIDの出力
         for k, v in name_ID_dict.items():
             print(k,"ID:",v)
 
