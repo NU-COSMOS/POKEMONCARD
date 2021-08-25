@@ -1,6 +1,8 @@
 #-*- coding:utf-8 -*-
 import json
 import random
+import os
+import pickle
 
 
 class Deck:
@@ -61,3 +63,37 @@ class Deck:
         山札の残り枚数を返す
         """
         return len(self.deck)
+
+    @classmethod
+    def regist(cards_path):
+        """
+        デッキの登録
+        """
+        # カードデータが存在するか確認
+        if not os.path.isfile(cards_path):
+            print("カードデータが見つかりませんでした")
+            print("終了します")
+            exit(1)
+
+        # カードデータの読み込み
+        with open(cards_path, 'r') as f:
+            cards = json.load(f)
+
+        num = int(input("デッキ枚数を入力してください(10の倍数のみ)"))
+
+        # デッキ格納リスト
+        deck = []
+
+        # デッキ情報
+        for _n in range(num):
+            id = int(input("デッキに入れるカードのmain_idを入力してください："))
+            deck.append(cards['cards'][id])
+
+        # 登録したデッキの確認
+        print("デッキ内容：")
+        for card in deck:
+            print(card['name'])
+
+        deck_name = input("デッキ名：")
+        with open('../' + deck_name + '.pkl', 'w') as f:
+            pickle.dump(deck, f)
