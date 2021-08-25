@@ -279,23 +279,14 @@ class Data:
             print("入力を破棄しました")
         print("操作を終了します")
 
-    def delete():
+    def inquiry(save_path):
         """
-        登録済みのカードデータを削除
+        カードのID照会
         """
-    
-    def update(save_path):
-        """
-        登録済みのカードデータの内容を更新
-        """
-
-        # 入力内容のチェッカー
-        checker = Checker() 
-
         with open(save_path, 'r') as f:
-            card_data = json.load(f)             
+            card_data = json.load(f)
 
-        name_part        = input("修正するカード名(一部でも可)を入力し, IDを取得してください:")
+        name_part        = input("削除するカード名(一部でも可)を入力し, IDを取得してください:")
 
         # 入力したカード名のヒット件数 初期値:0
         hits_num         = 0
@@ -309,11 +300,57 @@ class Data:
                     name_ID_dict[card['name']] = card['main_id']
                 hits_num = hits_num + 1
 
-        print(hits_num,"件ヒットしました")
+        print(hits_num,"件ヒットしました")  
 
         # ヒットしたカード名とIDの出力
         for k, v in name_ID_dict.items():
             print(k,"ID:",v)
+
+    def delete(save_path):
+        """
+        登録済みのカードデータを削除
+        """ 
+
+        Data.inquiry("../card_data.json")
+
+        with open(save_path, 'r') as f:
+            card_data = json.load(f)        
+
+        main_id     = int(input("情報を削除するカードのIDを入力してください：")) 
+
+        # カードデータの削除
+        card_data["cards"].pop(main_id) 
+ 
+        # 削除後のカード枚数
+        card_num = len(card_data['cards'])
+
+        # 削除したカードのIDより大きいカードのID変更
+        for card in card_data['cards'][main_id:card_num]:
+            card['main_id'] = card['main_id']-1
+            card['sub_id']  = card['sub_id']-1    
+
+        # 実行確認フェーズ
+        y_n = input("本当に削除してよろしいですか？(y/n)")
+        if y_n == "y":
+            with open(save_path, 'w') as f:
+                json.dump(card_data, f, indent = 4)
+            print("カードデータの削除完了") 
+        else:
+             print("入力を破棄しました")
+        print("操作を終了します") 
+    
+    def update(save_path):
+        """
+        登録済みのカードデータの内容を更新
+        """
+
+        # 入力内容のチェッカー
+        checker = Checker() 
+
+        Data.inquiry("../card_data.json")
+
+        with open(save_path, 'r') as f:
+            card_data = json.load(f) 
 
         main_id     = int(input("情報を更新するカードのIDを入力してください："))
         card_type   = input("修正後のカードタイプを入力してください\n修正しない場合は修正前のタイプを入力してください\n(Monster, Support, Accessory, Energy, Stadium, Goods):")
@@ -377,7 +414,7 @@ class Data:
             print("修正内容を登録しました") 
         else:
              print("入力を破棄しました")
-        print("操作を終了します")                                                        
+        print("操作を終了します")                                                            
 
     def search():
         """
@@ -453,4 +490,5 @@ class Skill:
         return energies
 
 #Data.regist("../card_data.json")
-Data.update("../card_data.json")
+#Data.update("../card_data.json")
+Data.delete("../card_data.json")
