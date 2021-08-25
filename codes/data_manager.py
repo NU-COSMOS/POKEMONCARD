@@ -286,7 +286,7 @@ class Data:
         with open(save_path, 'r') as f:
             card_data = json.load(f)
 
-        name_part        = input("削除するカード名(一部でも可)を入力し, IDを取得してください:")
+        name_part        = input("情報を更新するカード名(一部でも可)を入力し, IDを取得してください:")
 
         # 入力したカード名のヒット件数 初期値:0
         hits_num         = 0
@@ -488,7 +488,3 @@ class Skill:
         """
         energies = input("必要なエネルギー(例：炎,炎)：").split(",")
         return energies
-
-#Data.regist("../card_data.json")
-#Data.update("../card_data.json")
-Data.delete("../card_data.json")
