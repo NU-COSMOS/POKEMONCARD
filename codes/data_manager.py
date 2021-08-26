@@ -13,7 +13,7 @@ class Checker:
     def __init__(self):
         self.card_types = ["Monster", "Support", "Accessory", "Energy", "Stadium", "Goods"]
         self.types = ["炎", "水", "電気", "無", "闘", "悪", "鋼", "超", "草", "妖", "竜", "None"]
-        self.status = ["None", "毒", "まひ", "眠り", "氷", "やけど"]
+        self.status = ["None", "毒", "まひ", "眠り", "氷", "やけど", "こんらん"]
         self.message = {'type_error': '存在しない属性が入力されています', 
                         'none_error': 'Noneを選択した場合、その項目に別の属性を入力しないでください', 
                         'hp_error': '体力の数値が不正です', 
@@ -480,7 +480,7 @@ class Skill:
 
             elif block == "status":
                 while(1):
-                    status = input("状態異常を入力してください(無し, 毒, まひ, 眠り, 氷, やけど)：")
+                    status = input("状態異常を入力してください(無し, 毒, まひ, 眠り, 氷, やけど, こんらん)：")
                     if status in checker.status:
                         break
                     print("存在しない状態異常が入力されました")
