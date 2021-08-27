@@ -144,7 +144,7 @@ class Checker:
         Noneの文字列が入っていた場合、それだけしか入っていないことを確認
         """
         if "None" in list:
-            return len(list == 1)
+            return len(list) == 1
         else:
             return True
 
