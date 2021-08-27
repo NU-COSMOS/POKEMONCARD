@@ -21,8 +21,8 @@ def main():
             Data.delete(path)
 
         elif operation == 4:
-            Data.show(path)    
-
+            Data.show(path) 
+            
         else:
             print("終了します")
             exit(1)
