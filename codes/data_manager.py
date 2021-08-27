@@ -469,8 +469,8 @@ class Skill:
         checker = Checker()
         blocks = []
         while(1):
-            block = input("選択肢(damage, status)：")
-            if block == "damage":
+            block = input("選択肢(damage, continuous damage, status)：")
+            if block == "damage" or block == "continuous damage":
                 while(1):
                     dmg = int(input("ダメージを入力してください："))
                     if checker.damage(dmg):
@@ -495,7 +495,7 @@ class Skill:
 
     def need_energy():
         """
-        技を塚角に必要なエネルギーカードを登録する
+        技を使うのに必要なエネルギーカードを登録する
         """
-        energies = input("必要なエネルギー(例：炎,炎)：").split(",")
+        energies = input("技を使うのに必要なエネルギー(例：炎,炎)：").split(",")
         return energies
