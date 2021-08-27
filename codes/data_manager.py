@@ -286,7 +286,7 @@ class Data:
         with open(save_path, 'r') as f:
             card_data = json.load(f)
 
-        name_part        = input("削除するカード名(一部でも可)を入力し, IDを取得してください:")
+        name_part        = input("アクセスするカードの名前(一部でも可)を入力し, IDを取得してください:")
 
         # 入力したカード名のヒット件数 初期値:0
         hits_num         = 0
@@ -421,10 +421,21 @@ class Data:
         カードデータの検索
         """
 
-    def show():
+    def show(save_path):
         """
         カードデータの閲覧
         """
+        Data.inquiry("../card_data.json")
+
+        with open(save_path, 'r') as f:
+            card_data = json.load(f)        
+
+        main_id_list = list(map(int, input("閲覧するカードのIDを入力してください(複数可) (例：0,1):").split(","))) 
+
+        for main_id in main_id_list:
+            print(card_data["cards"][main_id])      
+
+
 
     def deck_make():
         """
@@ -488,7 +499,3 @@ class Skill:
         """
         energies = input("必要なエネルギー(例：炎,炎)：").split(",")
         return energies
-
-#Data.regist("../card_data.json")
-#Data.update("../card_data.json")
-Data.delete("../card_data.json")
