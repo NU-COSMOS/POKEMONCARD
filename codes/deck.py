@@ -64,7 +64,7 @@ class Deck:
         """
         return len(self.deck)
 
-    @classmethod
+    @staticmethod
     def regist(cards_path):
         """
         デッキの登録
