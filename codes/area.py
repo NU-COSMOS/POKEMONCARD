@@ -9,8 +9,8 @@ class Area:
         self.deck = player.deck  # 山札
         self.player_name = player.name  # プレイヤー名
         self.hands = []  # 手札
-        self.fight = []  # バトル場
-        self.bench = []  # ベンチ
+        self.fight = []  # バトル場, Monsterインスタンスのリスト
+        self.bench = []  # ベンチ, Monsterインスタンスのリスト
         self.trash = []  # トラッシュ
         self.max_sides = player.deck.remain() // 10  # サイドにおける枚数
         self.sides = []  # サイド

@@ -24,7 +24,7 @@ class Monster(Card):
                  img, cur_hp, max_hp, types, 
                  chara, skills, weaks, 
                  resists, escape, before, 
-                 main_id, sub_id, status = "None"):
+                 main_id, sub_id):
         super().__init__(name, card_type, img, main_id, sub_id)
         self.cur_hp = cur_hp  # 現在の体力
         self.max_hp = max_hp  # 体力の最大値
@@ -35,9 +35,35 @@ class Monster(Card):
         self.resists = resists  # 抵抗属性のlist
         self.escape = escape  # 逃げるのに必要なエネルギーカードのlist
         self.before = before  # 進化前のポケモン名
-        self.status = status  # 状態異常
+        self.status = []  # 状態異常
         self.has_energy = []  # ついているエネルギーカード
         self.has_item = []  # 持たせた道具
+
+    def change_cur_hp(self, damage):
+        """
+        体力を変化させる
+        """
+        # 瀕死の時
+        if self.cur_hp - damage <= 0:
+            self.cur_hp = 0
+
+        # 体力上限の時
+        elif self.cur_hp - damage > self.max_hp:
+            self.cur_hp = self.max_hp
+
+        else:
+            self.cur_hp -= damage
+
+    def change_status(self, condition):
+        """
+        状態を変化させる
+        """
+        if condition == '全除去':
+            self.status = []
+
+        else:
+            self.status.append(condition)
+
 
 
 class Accessory(Card):

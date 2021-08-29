@@ -6,6 +6,7 @@ import pickle
 
 from player import Player
 from area import Area
+from action import Action
 
 
 def load_deck(deck_name):
@@ -58,6 +59,8 @@ def ready(areas):
 
     # サイドを用意
 
+    # たねポケモンを場に出す
+
     return areas
 
 
@@ -77,12 +80,15 @@ def turn(areas, turn_cnt):
 
     while(1):
         act = int(input("行動を選択して下さい\n1:攻撃\n2:終了\n"))
+        
+        # 攻撃技を使用
         if act == 1:
+            areas = Action.attack(areas, turn_cnt)
             # 技を使用したらターン終了
             break
 
+        # ターン終了
         elif act == 2:
-            # 技を使わずにターン終了
             break
 
     return areas
