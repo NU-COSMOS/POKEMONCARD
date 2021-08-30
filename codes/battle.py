@@ -67,6 +67,9 @@ def ready(areas):
 def check_end(areas):
     """
     試合が終了したかどうかを判定
+    終了条件
+    ・片方のエリアのサイドが0枚
+    ・次の手番のプレイヤーの山札が0枚
     """
     return True
 
@@ -77,6 +80,9 @@ def turn(areas, turn_cnt):
     """
     print(f"{turn_cnt+1}ターン目")
     print(f"{areas[turn_cnt%2].player_name}のターンです")
+
+    # ターン開始時にはカードを1枚引く
+    areas[turn_cnt%2].draw(1)
 
     while(1):
         act = int(input("行動を選択して下さい\n1:攻撃\n2:終了\n"))
@@ -90,6 +96,10 @@ def turn(areas, turn_cnt):
         # ターン終了
         elif act == 2:
             break
+
+    # 状態異常のダメージ等、ターン終了時の処理
+
+    # 瀕死のポケモンがいたらサイドをとる
 
     return areas
 

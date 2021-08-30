@@ -15,3 +15,12 @@ class Area:
         self.max_sides = player.deck.remain() // 10  # サイドにおける枚数
         self.sides = []  # サイド
         # self.studium = []  # スタジアムカード置き場
+
+    def draw(self, n):
+        """
+        デッキからカードをn枚引いて手札に加える
+        """
+        for _n in range(n):
+            self.hands.append(self.deck.pop(0))
+        print(f"カードを{n}枚手札に加えました")
+        
