@@ -7,16 +7,14 @@ import pickle
 from player import Player
 from area import Area
 from action import Action
+from deck import Deck
 
 
 def load_deck(deck_name):
     """
     デッキデータの読み込み
     """
-    with open(f"../{deck_name}.pkl", "r") as file:
-        deck = pickle.load(file)
-
-    return deck
+    return Deck(f"../{deck_name}.pkl")
 
 
 def create_players():
@@ -56,7 +54,7 @@ def ready(areas):
     """
     for area in areas:
         # 手札を用意
-        area.set_hands(5)
+        area.set_hands()
         # サイドを用意
         area.set_sides()
         # たねポケモンを場に出す

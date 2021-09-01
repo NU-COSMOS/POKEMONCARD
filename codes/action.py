@@ -11,12 +11,12 @@ class Action:
         バトルポケモンの技を使用する
         """
         # カードの持っている技を表示
-        for n, skill in enumerate(areas[turn_cnt%2].fight[-1]['skills']):
+        for n, skill in enumerate(areas[turn_cnt%2].battle[-1].skills):
             print(f"{n}：{skill['name']}")
         skill_num = int(input("使用する技の番号を入力してください："))
 
-        areas = Action.activate(areas[turn_cnt%2].fight[-1]['skills'][skill_num]['name'], 
-                                areas[turn_cnt%2].fight[-1]['skills'][n]['block'], 
+        areas = Action.activate(areas[turn_cnt%2].battle[-1].skills[skill_num]['name'], 
+                                areas[turn_cnt%2].battle[-1].skills[skill_num]['block'], 
                                 areas, turn_cnt)
 
         return areas
@@ -40,10 +40,10 @@ class Action:
         """
         # 相手のバトルポケモンの体力を変化させる
         if block['block type'] == 'damage':
-            areas[(turn_cnt+1)%2].fight[-1].change_cur_hp(block['damage'])
+            areas[(turn_cnt+1)%2].battle[-1].change_cur_hp(block['damage'])
 
         # 相手のバトルポケモンに状態異常を付与する
         elif block['block type'] == 'status':
-            areas[(turn_cnt+1)%2].fight[-1].change_status(block['status'])
+            areas[(turn_cnt+1)%2].battle[-1].change_status(block['status'])
 
         return areas
