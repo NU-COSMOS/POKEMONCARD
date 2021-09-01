@@ -483,16 +483,18 @@ class Skill:
                         if checker.damage(block["damage"]):
                             break
                         print("ダメージの入力が不正です") 
-                    blocks.append(block)   
-
+                    blocks.append(block) 
+                     
                 elif damage_type == "coin" or damage_type == "side" or damage_type == "energy":
                     block["damage type"] = damage_type
+                    if damage_type == "coin":
+                        block["trial_num"]   = input("コインを投げる回数が有限か無限か選択してください 選択肢(finite, infinite):")                     
                     while(1):
                         block["base damage"] = int(input("基本ダメージを入力してください:")) 
                         block["add damage"]  = int(input("追加ダメージを入力してください:"))
                         if checker.damage(block["base damage"]) and checker.damage(block["add damage"]):
                             break
-                        print("ダメージの入力が不正です") 
+                        print("ダメージの入力が不正です")
                     blocks.append(block)                                           
 
             elif block_type == "status":
