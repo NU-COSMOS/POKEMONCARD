@@ -469,24 +469,44 @@ class Skill:
         checker = Checker()
         blocks = []
         while(1):
-            block = input("選択肢(damage, continuous damage, status)：")
-            if block == "damage" or block == "continuous damage":
-                while(1):
-                    dmg = int(input("ダメージを入力してください："))
-                    if checker.damage(dmg):
-                        break
-                    print("ダメージの入力が不正です")
-                blocks.append([block, dmg])
+            block_type = input("選択肢(damage, status)：")
 
-            elif block == "status":
+            if block_type == "damage":
+                block = {}
+                damage_type = input("ダメージの種類を選択してください 選択肢(normal, coin, side, energy):")
+                block["block type"] = block_type 
+
+                if damage_type == "normal":
+                    block["damage type"] = damage_type
+                    while(1):
+                        block["damage"] = int(input("ダメージを入力してください:")) 
+                        if checker.damage(block["damage"]):
+                            break
+                        print("ダメージの入力が不正です") 
+                    blocks.append(block)   
+
+                elif damage_type == "coin" or damage_type == "side" or damage_type == "energy":
+                    block["damage type"] = damage_type
+                    while(1):
+                        block["base damage"] = int(input("基本ダメージを入力してください:")) 
+                        block["add damage"]  = int(input("追加ダメージを入力してください:"))
+                        if checker.damage(block["base damage"]) and checker.damage(block["add damage"]):
+                            break
+                        print("ダメージの入力が不正です") 
+                    blocks.append(block)                                           
+
+            elif block_type == "status":
+                block  = {}
+                block["block type"] = block_type                
                 while(1):
-                    status = input("状態異常を入力してください(無し, 毒, まひ, 眠り, 氷, やけど, こんらん)：")
-                    if status in checker.status:
+                    block["status"] = input("状態異常を入力してください(無し, 毒, まひ, 眠り, 氷, やけど, こんらん)：")
+                    if block["status"] in checker.status:
                         break
                     print("存在しない状態異常が入力されました")
-                blocks.append([block, status])
+                blocks.append(block)
 
-            elif block == "Q":
+
+            elif block_type == "Q":
                 break
 
             print("終了する場合はQ")
