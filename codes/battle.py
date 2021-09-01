@@ -54,12 +54,13 @@ def ready(areas):
     """
     試合開始の準備を整える
     """
-    # 手札を用意
-    # たねポケモンが含まれていなければ引き直し
-
-    # サイドを用意
-
-    # たねポケモンを場に出す
+    for area in areas:
+        # 手札を用意
+        area.set_hands(5)
+        # サイドを用意
+        area.set_sides()
+        # たねポケモンを場に出す
+        area.set_monster()
 
     return areas
 

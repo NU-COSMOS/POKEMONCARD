@@ -54,15 +54,15 @@ class Monster(Card):
         else:
             self.cur_hp -= damage
 
-    def change_status(self, condition):
+    def change_status(self, status):
         """
         状態を変化させる
         """
-        if condition == '全除去':
+        if status == 'None':
             self.status = []
 
         else:
-            self.status.append(condition)
+            self.status.append(status)
 
 
 

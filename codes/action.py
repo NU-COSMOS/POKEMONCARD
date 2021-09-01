@@ -39,11 +39,11 @@ class Action:
         スキルの効果を実行する
         """
         # 相手のバトルポケモンの体力を変化させる
-        if block['block_type'] == 'damage':
+        if block['block type'] == 'damage':
             areas[(turn_cnt+1)%2].fight[-1].change_cur_hp(block['damage'])
 
         # 相手のバトルポケモンに状態異常を付与する
-        elif block['block_type'] == 'status':
-            areas[(turn_cnt+1)%2].fight[-1].change_status(block['condition'])
+        elif block['block type'] == 'status':
+            areas[(turn_cnt+1)%2].fight[-1].change_status(block['status'])
 
         return areas
