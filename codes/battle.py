@@ -69,10 +69,18 @@ def check_end(areas):
     試合が終了したかどうかを判定
     終了条件
     ・片方のエリアのサイドが0枚
-    ・次の手番のプレイヤーの山札が0枚
+    ・片方のプレイヤーの山札が0枚
     """
-    return True
+    for area in areas:
+        # 山札の残り枚数が0枚
+        if not area.deck.can_draw():
+            return True
 
+        # 残りサイド枚数が0枚
+        if len(area.sides) == 0:
+            return True
+
+    return False
 
 def turn(areas, turn_cnt):
     """
