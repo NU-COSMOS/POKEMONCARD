@@ -53,6 +53,7 @@ def ready(areas):
     試合開始の準備を整える
     """
     for area in areas:
+        print(f'\n{area.player_name}の番')
         # 手札を用意
         area.set_hands()
         # サイドを用意
@@ -77,7 +78,7 @@ def turn(areas, turn_cnt):
     """
     手番
     """
-    print(f"{turn_cnt+1}ターン目")
+    print(f"\n{turn_cnt+1}ターン目")
     print(f"{areas[turn_cnt%2].player_name}のターンです")
 
     # ターン開始時にはカードを1枚引く
@@ -134,7 +135,7 @@ def check_winner(areas):
     勝者を調べる
     """
     for area in areas:
-        winner = area.name
+        winner = area.player_name
 
     return winner
 

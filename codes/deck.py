@@ -23,7 +23,7 @@ class Deck:
         # デッキ読み込み
         # デッキは中身がカードインスタンスのリスト形式で与えられる
         self.deck = []
-        with open(path, 'r') as f:
+        with open(path, 'rb') as f:
             load_deck = pickle.load(f)
         for card in load_deck:
             self.deck.append(dic2instance(card))            
@@ -80,6 +80,15 @@ class Deck:
         """
         return len(self.deck)
 
+    def pop(self, n):
+        return self.deck.pop(n)
+
+    def extend(self, list):
+        self.deck.extend(list)
+
+    def append(self, list):
+        self.deck.append(list)
+
     @staticmethod
     def regist(cards_path):
         """
@@ -111,5 +120,5 @@ class Deck:
             print(card['name'])
 
         deck_name = input("デッキ名：")
-        with open('../' + deck_name + '.pkl', 'w') as f:
+        with open('../' + deck_name + '.pkl', 'wb') as f:
             pickle.dump(deck, f)
