@@ -43,6 +43,7 @@ def set_area():
     for player in players:
         areas.append(Area(player))
 
+    # エリアの初期状態を設定
     areas = ready(areas)
 
     return areas
@@ -70,14 +71,21 @@ def check_end(areas):
     終了条件
     ・片方のエリアのサイドが0枚
     ・片方のプレイヤーの山札が0枚
+    ・片方のバトル場にポケモンがいない
     """
     for area in areas:
         # 山札の残り枚数が0枚
         if not area.deck.can_draw():
+            print("山札がなくなりました")
             return True
 
         # 残りサイド枚数が0枚
         if len(area.sides) == 0:
+            print("サイドをすべてとりました")
+            return True
+
+        if len(area.battle) == 0:
+            print("バトル場に出せるポケモンがいませんでした")
             return True
 
     return False
@@ -105,9 +113,28 @@ def turn(areas, turn_cnt):
         elif act == 2:
             break
 
-    # 状態異常のダメージ等、ターン終了時の処理
+    # ターン終了時の処理
+    areas = end(areas, turn_cnt)
 
-    # 瀕死のポケモンがいたらサイドをとる
+    return areas
+
+
+def end(areas, turn_cnt):
+    """
+    ターン終了時の処理
+    """
+    # 相手のバトルポケモンを瀕死にさせた場合
+    if areas[(turn_cnt+1)%2].battle[-1].cur_hp <= 0:
+
+        # 自分はサイドを1枚引く
+        areas[turn_cnt%2].draw_side(1)
+
+        # 相手はバトル場のポケモンをトラッシュに移す
+        areas[(turn_cnt+1)%2].battle2trash()
+
+        # 相手はベンチポケモン1体をバトル場に移す
+        if len(areas[(turn_cnt+1)%2].bench) != 0:
+            areas[(turn_cnt+1)%2].bench2battle()
 
     return areas
 
@@ -142,11 +169,19 @@ def check_winner(areas):
     """
     勝者を調べる
     """
-    for area in areas:
-        winner = area.player_name
+    for a in range(len(areas)):
+        # 山札がない場合, 相手の勝利
+        if not areas[a].deck.can_draw():
+            return areas[a+1].player_name
 
-    return winner
+        # サイドがない場合, 自分の勝利
+        if len(areas[a].sides) == 0:
+            return areas[a].player_name
 
+        # バトル場にポケモンがいない場合, 相手の勝利
+        if len(areas[a].battle) == 0:
+            return areas[a+1].player_name
+    
 
 def main():
     # 場を用意
