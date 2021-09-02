@@ -436,13 +436,6 @@ class Data:
             print(card_data["cards"][main_id])      
 
 
-
-    def deck_make():
-        """
-        カードデータからデッキを作成
-        """
-
-
 class Skill:
     """
     カードの効果を構成
