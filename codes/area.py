@@ -157,4 +157,19 @@ class Area:
         num = int(input("バトル場に出すベンチポケモンの番号："))
 
         self.battle = self.bench.pop(num)
-        
+
+    def show(self):
+        """
+        場の状況を表示
+        """
+        print(f'\n{self.player_name}のエリア')
+        print('バトル場')
+        self.battle[-1].show()
+        print('ベンチ：')
+        for b in self.bench:
+            b[-1].show()
+        print(f'残り山札枚数：{self.deck.remain()}')
+        print(f'残りサイド枚数：{len(self.sides)}')
+        print('手札')
+        for hand in self.hands:
+            print(hand.name)

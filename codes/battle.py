@@ -139,13 +139,25 @@ def end(areas, turn_cnt):
     return areas
 
 
+def show(areas):
+    """
+    場の状況を表示
+    """
+    for area in areas:
+        area.show()
+
+
 def progress(areas):
     """
     各プレイヤーが交互に手番を行う
     """
     turn_cnt = 0
     while(1):
+        # プレイヤーの手番
         areas = turn(areas, turn_cnt)
+
+        # 場の状況を表示
+        show(areas)
 
         # 試合終了判定
         if check_end(areas):
