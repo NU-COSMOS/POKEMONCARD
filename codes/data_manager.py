@@ -488,7 +488,7 @@ class Skill:
                 elif damage_type == "coin" or damage_type == "side" or damage_type == "energy":
                     block["damage type"] = damage_type
                     if damage_type == "coin":
-                        block["trial_num"]   = input("コインを投げる回数が有限か無限か選択してください 選択肢(finite, infinite):")                     
+                        block["trial_num"]   = input("コインを投げる回数の上限を入力してください　無限の場合はIと入力してください:")                     
                     while(1):
                         block["base damage"] = int(input("基本ダメージを入力してください:")) 
                         block["add damage"]  = int(input("追加ダメージを入力してください:"))
