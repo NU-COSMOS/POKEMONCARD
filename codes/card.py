@@ -60,6 +60,13 @@ class Monster(Card):
         else:
             self.status.append(status)
 
+    def show(self):
+        """
+        モンスターの状態を表示
+        """
+        s = ','.join(self.status)
+        print(f'{self.name}({self.cur_hp}/{self.max_hp}) 状態異常：{s}')
+
 
 
 class Accessory(Card):

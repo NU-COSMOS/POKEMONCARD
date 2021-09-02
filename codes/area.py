@@ -108,11 +108,68 @@ class Area:
                 num = int(input("ベンチに出すカードの番号を入力してください；"))
 
                 if self.hands[num].card_type == 'Monster' and self.hands[num].before == 'たね':
-                    self.bench.append(self.hands.pop(num))
+                    self.bench.append([self.hands.pop(num)])
                 else:
                     print("そのカードはベンチにおけません")
 
             else:
                 break
 
-        
+    def draw_side(self, n):
+        """
+        サイドをn枚引いて手札に加える
+        """
+        for _n in range(n):
+            if len(self.sides) != 0:
+                self.hands.append(self.sides.pop(0))
+
+    def battle2trash(self):
+        """
+        バトル場にいるポケモンをトラッシュに送る
+        """
+        for card in self.battle:
+            # ついているエネルギーカードをトラッシュへ
+            if len(card.has_energy) != 0:
+                for _e in range(len(card.has_energy)):
+                    self.trash.append(card.has_energy.pop(0))
+
+            # ついているアイテムカードをトラッシュへ
+            if len(card.has_item) != 0:
+                for _i in range(len(card.has_item)):
+                    self.trash.append(card.has_item.pop(0))
+
+            # 状態異常と体力を初期化
+            card.cur_hp = card.max_hp
+            card.status = []
+
+        # モンスターカードをトラッシュへ
+        for _b in range(len(self.battle)):
+            self.trash.append(self.battle.pop(0))
+
+    def bench2battle(self):
+        """
+        ベンチポケモンをバトル場に出す
+        """
+        print("ベンチポケモン一覧")
+        for b in range(len(self.bench)):
+            print(f'{b}：{self.bench[b][-1].name}')
+
+        num = int(input("バトル場に出すベンチポケモンの番号："))
+
+        self.battle = self.bench.pop(num)
+
+    def show(self):
+        """
+        場の状況を表示
+        """
+        print(f'\n{self.player_name}のエリア')
+        print('バトル場')
+        self.battle[-1].show()
+        print('ベンチ：')
+        for b in self.bench:
+            b[-1].show()
+        print(f'残り山札枚数：{self.deck.remain()}')
+        print(f'残りサイド枚数：{len(self.sides)}')
+        print('手札')
+        for hand in self.hands:
+            print(hand.name)

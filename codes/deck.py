@@ -89,6 +89,12 @@ class Deck:
     def append(self, list):
         self.deck.append(list)
 
+    def can_draw(self):
+        """
+        山札にカードが残っているかを確認
+        """
+        return self.remain() > 0
+
     @staticmethod
     def regist(cards_path):
         """
