@@ -4,13 +4,29 @@ import random
 import os
 import pickle
 
+from card import *
+
+
+def dic2instance(dic):
+    """
+    辞書型で保存されたカードをカードインスタンスに変換
+    """
+    if dic['card_type'] == 'Monster':
+        return Monster(dic)
+
+    elif dic['card_type'] == 'Energy':
+        return Energy(dic)
+
 
 class Deck:
     def __init__(self, path):
         # デッキ読み込み
-        # デッキは中身が辞書のリスト形式で与えられる
-        with open(path, 'r') as f:
-            self.deck = json.load(f)
+        # デッキは中身がカードインスタンスのリスト形式で与えられる
+        self.deck = []
+        with open(path, 'rb') as f:
+            load_deck = pickle.load(f)
+        for card in load_deck:
+            self.deck.append(dic2instance(card))            
 
     def shuffle(self):
         """
@@ -64,7 +80,16 @@ class Deck:
         """
         return len(self.deck)
 
-    @classmethod
+    def pop(self, n):
+        return self.deck.pop(n)
+
+    def extend(self, list):
+        self.deck.extend(list)
+
+    def append(self, list):
+        self.deck.append(list)
+
+    @staticmethod
     def regist(cards_path):
         """
         デッキの登録
@@ -95,5 +120,5 @@ class Deck:
             print(card['name'])
 
         deck_name = input("デッキ名：")
-        with open('../' + deck_name + '.pkl', 'w') as f:
+        with open('../' + deck_name + '.pkl', 'wb') as f:
             pickle.dump(deck, f)

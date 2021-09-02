@@ -144,7 +144,7 @@ class Checker:
         Noneの文字列が入っていた場合、それだけしか入っていないことを確認
         """
         if "None" in list:
-            return len(list == 1)
+            return len(list) == 1
         else:
             return True
 
@@ -436,13 +436,6 @@ class Data:
             print(card_data["cards"][main_id])      
 
 
-
-    def deck_make():
-        """
-        カードデータからデッキを作成
-        """
-
-
 class Skill:
     """
     カードの効果を構成
@@ -470,11 +463,11 @@ class Skill:
         blocks = []
         while(1):
             block_type = input("選択肢(damage, status)：")
+            block = {}
+            block["block type"] = block_type
 
             if block_type == "damage":
-                block = {}
-                damage_type = input("ダメージの種類を選択してください 選択肢(normal, coin, side, energy):")
-                block["block type"] = block_type 
+                damage_type = input("ダメージの種類を選択してください 選択肢(normal, coin, side, energy):") 
 
                 if damage_type == "normal":
                     block["damage type"] = damage_type
@@ -497,11 +490,9 @@ class Skill:
                         print("ダメージの入力が不正です")
                     blocks.append(block)                                           
 
-            elif block_type == "status":
-                block  = {}
-                block["block type"] = block_type                
+            elif block_type == "status":              
                 while(1):
-                    block["status"] = input("状態異常を入力してください(無し, 毒, まひ, 眠り, 氷, やけど, こんらん)：")
+                    block["status"] = input("状態異常を入力してください(None, 毒, まひ, 眠り, 氷, やけど, こんらん)：")
                     if block["status"] in checker.status:
                         break
                     print("存在しない状態異常が入力されました")
