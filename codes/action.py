@@ -40,7 +40,10 @@ class Action:
         """
         # 相手のバトルポケモンの体力を変化させる
         if block['block type'] == 'damage':
-            areas[(turn_cnt+1)%2].battle[-1].change_cur_hp(block['damage'])
+            if block['damage type'] == 'normal':
+                areas[(turn_cnt+1)%2].battle[-1].change_cur_hp_normal(block['damage'])
+            elif block['damage type'] == 'coin':
+                areas[(turn_cnt+1)%2].battle[-1].change_cur_hp_coin(block['trial_num'],block['base damage'],block['add damage'])   
 
         # 相手のバトルポケモンに状態異常を付与する
         elif block['block type'] == 'status':
