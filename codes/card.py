@@ -102,19 +102,21 @@ class Monster(Card):
 
         self.status = list(set(self.status)) 
 
-#    def declare():       
-
+    def status_effect(self, player_name):
+        """
+        特殊状態による効果
+        """     
+        if self.status != []:
+            if self.status[0] == "毒":
+                print(player_name,"の",self.name,"は毒のダメージを受けている")
+                return "毒"
+                             
     def show(self):
         """
         モンスターの状態を表示
         """
         s = ','.join(self.status)
         print(f'{self.name}({self.cur_hp}/{self.max_hp}) 状態異常：{s}')
-
-    def pokemon_check(areas, turn_cnt):
-        """
-        ポケモンチェック
-        """
 
 
 

@@ -123,6 +123,10 @@ def end(areas, turn_cnt):
     """
     ターン終了時の処理
     """
+
+    #ポケモンチェック
+    Action.pokemon_check(areas, turn_cnt)
+
     # 相手のバトルポケモンを瀕死にさせた場合
     if areas[(turn_cnt+1)%2].battle[-1].cur_hp <= 0:
 
