@@ -38,12 +38,13 @@ class Action:
         """
         スキルの効果を実行する
         """
-        # 相手のバトルポケモンの体力を変化させる
+        # 相手のバトルポケモンにダメージを与える
         if block['block type'] == 'damage':
             if block['damage type'] == 'normal':
-                areas[(turn_cnt+1)%2].battle[-1].change_cur_hp_normal(block['damage'])
+                damage = block['damage']       
             elif block['damage type'] == 'coin':
-                areas[(turn_cnt+1)%2].battle[-1].change_cur_hp_coin(block['trial_num'],block['base damage'],block['add damage'])   
+                damage = areas[(turn_cnt+1)%2].battle[-1].damage_cal_coin(block['trial_num'], block['base damage'], block['add damage'])    
+            areas[(turn_cnt+1)%2].battle[-1].change_cur_hp(damage)
 
         # 相手のバトルポケモンに状態異常を付与する
         elif block['block type'] == 'status':
