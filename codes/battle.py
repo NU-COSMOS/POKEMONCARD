@@ -2,7 +2,8 @@
 """
 試合する
 """
-import pickle
+import cv2
+import numpy as np
 
 from player import Player
 from area import Area
@@ -143,8 +144,9 @@ def show(areas):
     """
     場の状況を表示
     """
-    for area in areas:
-        area.show()
+    all_area = np.concatenate([np.rot90(areas[0].get_img(), 3), np.rot90(areas[1].get_img(), 1)], axis = 1)
+    cv2.imshow('Field', all_area)
+    cv2.waitKey(0)
 
 
 def progress(areas):
