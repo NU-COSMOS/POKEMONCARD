@@ -102,7 +102,7 @@ def turn(areas, turn_cnt):
     areas[turn_cnt%2].draw(1)
 
     while(1):
-        act = int(input("行動を選択して下さい\n1:攻撃\n2:終了\n"))
+        act = int(input("行動を選択して下さい\n1:攻撃\n2:手札からたねポケモンを場に出す\n3:終了"))
         
         # 攻撃技を使用
         if act == 1:
@@ -110,8 +110,12 @@ def turn(areas, turn_cnt):
             # 技を使用したらターン終了
             break
 
-        # ターン終了
+        # 手札から種ポケモンを場に出す
         elif act == 2:
+            areas = Action.set_bench(areas, turn_cnt)
+
+        # ターン終了
+        elif act == 3:
             break
 
     # ターン終了時の処理

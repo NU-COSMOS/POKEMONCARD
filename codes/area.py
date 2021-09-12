@@ -125,6 +125,10 @@ class Area:
         手札からベンチにポケモンを出す
         """
         while(1):
+            if len(self.bench) >= 5:
+                print('これ以上ベンチにポケモンを出せません')
+                break
+            
             choice = input('ベンチにポケモンを出しますか？(y/n)：')
             if choice == 'y':
                 for n, card in enumerate(self.hands):
@@ -201,7 +205,7 @@ class Area:
 
     def get_img(self):
         """
-        場の画像を表示
+        場の画像を画像で表示
         cv2は日本語対応してないためpilで開いてからcv2に変換
         """
         # バトル場のポケモン画像
