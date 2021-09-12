@@ -54,3 +54,14 @@ class Action:
         手札からベンチに種ポケモンを出す
         """
         areas[turn_cnt%2].set_bench()
+
+        return areas
+
+    @staticmethod
+    def set_energy(areas, turn_cnt):
+        """
+        手札のエネルギーカードを場のポケモンにつける
+        """
+        flag = areas[turn_cnt%2].set_energy()
+
+        return flag, areas

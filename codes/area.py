@@ -108,8 +108,7 @@ class Area:
         試合開始時に手札からバトル場にポケモンを出す
         """
         while(1):
-            for n, card in enumerate(self.hands):
-                print(f'{n}:{card.name}')
+            self.show_hands()
             
             num = int(input("バトル場に出すカードの番号を入力してください；"))
 
@@ -128,11 +127,11 @@ class Area:
             if len(self.bench) >= 5:
                 print('これ以上ベンチにポケモンを出せません')
                 break
-            
+
             choice = input('ベンチにポケモンを出しますか？(y/n)：')
             if choice == 'y':
-                for n, card in enumerate(self.hands):
-                    print(f'{n}:{card.name}')
+                # 手札を表示
+                self.show_hands()
 
                 num = int(input("ベンチに出すカードの番号を入力してください；"))
 
@@ -227,5 +226,58 @@ class Area:
                               Area.bench_x*(i+1)+(i*10):Area.bench_x*(i+1)+(i*10)+Area.card_w] = bench_img
 
         return self.area_img
+
+    def set_energy(self):
+        """
+        手札のエネルギーカードを場のポケモンにつける
+        """
+        # エネルギー付与成功判定フラグ
+        flag = False
+
+        # 手札を表示
+        self.show_hands()
+
+        num = int(input("付けたいエネルギーカードの番号を入力してください；"))
+
+        if self.hands[num].card_type == 'Energy':
+            # 場のポケモンを確認
+            self.show_play_monsters()
+
+            p_num = int(input('エネルギーをつけたいポケモンを選択してください：'))
+
+            # バトル場のポケモンが選択された場合
+            if p_num == 0:
+                self.battle[-1].has_energy.append(self.hands.pop(num))
+
+            # ベンチのポケモンが選択された場合
+            else:
+                self.bench[p_num-1][-1].has_energy.append(self.hands.pop(num))
+
+            flag = True
+
+        else:
+            print("そのカードはエネルギーではありません")
+
+        return flag
+
+    def show_hands(self):
+        """
+        手札を選択用の番号付きで表示
+        """
+        for n, card in enumerate(self.hands):
+            print(f'{n}:{card.name}')
+
+    def show_play_monsters(self):
+        """
+        場に出ているポケモンの一覧を表示
+        """
+        # バトル場のポケモン
+        print(f'0:{self.battle[-1].name}(バトル)')
+        
+        # ベンチのポケモン
+        # バトル場のポケモンもまとめて表示するため番号がずれる
+        for b in range(len(self.bench)):
+            print(f'{b+1}：{self.bench[b][-1].name}(ベンチ)')
+        
 
         

@@ -101,8 +101,16 @@ def turn(areas, turn_cnt):
     # ターン開始時にはカードを1枚引く
     areas[turn_cnt%2].draw(1)
 
+    # 行動フラグ
+    # 手番に一度しか行えない行動を管理
+    energy_flag = False
+
     while(1):
-        act = int(input("行動を選択して下さい\n1:攻撃\n2:手札からたねポケモンを場に出す\n3:終了"))
+        act = int(input("行動を選択して下さい\
+                        \n1:攻撃 \
+                        \n2:手札からたねポケモンを場に出す \
+                        \n3:エネルギーカードをつける \
+                        \n4:終了"))
         
         # 攻撃技を使用
         if act == 1:
@@ -114,8 +122,17 @@ def turn(areas, turn_cnt):
         elif act == 2:
             areas = Action.set_bench(areas, turn_cnt)
 
-        # ターン終了
+        # 手札からエネルギーカードを場のポケモンにつける
+        # 自分のターンに一回しか使用不可
         elif act == 3:
+            if energy_flag:
+                print('その行動はもう行いました')
+
+            else:
+                energy_flag, areas = Action.set_energy(areas, turn_cnt)
+
+        # ターン終了
+        elif act == 4:
             break
 
     # ターン終了時の処理
