@@ -147,6 +147,7 @@ def show(areas):
     all_area = np.concatenate([np.rot90(areas[0].get_img(), 3), np.rot90(areas[1].get_img(), 1)], axis = 1)
     cv2.imshow('Field', all_area)
     cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 def progress(areas):
