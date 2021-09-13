@@ -35,37 +35,29 @@ class Monster(Card):
         self.has_energy = []  # ついているエネルギーカード
         self.has_item = []  # 持たせた道具
 
-    def damage_cal_coin(self, trial_num, base_damage, add_damage):
-        # ランダムにコインの表裏を出力 (表:1 裏:2)
-        random_list = []
+    @staticmethod
+    def damage_cal_coin(trial_num, base_damage, add_damage):
+        # ランダムにコインの表裏を出力
+        obverse_reverse_list   = []
+        random_sample          = ["表","裏"]
         if trial_num == 'I':
+            print("コインを裏が出るまで投げ,",add_damage,"×表の数 追加ダメージを与えます")
             while(1):
-                random_num = random.randint(1,2)
-                random_list.append(random_num)
-                if random_num == 2:
+                random_num = "".join(random.sample(random_sample,1))
+                obverse_reverse_list.append(random_num)
+                if random_num == "裏":
                     break
-        else:    
+        else: 
+            print("コインを",trial_num,"回投げ,",add_damage,"×表の数 追加ダメージを与えます")
             for i in range(int(trial_num)):
-                random_num = random.randint(1,2)
-                random_list.append(random_num)   
+                random_num = "".join(random.sample(random_sample,1))
+                obverse_reverse_list.append(random_num)   
 
         # 表の数
-        obverse_num = len([i for i in random_list if i == 1])                 
-  
-        if trial_num == 'I':
-            print("コインを裏が出るまで投げ,表の数×",add_damage,"追加ダメージを与えます")
-        else:    
-            print("コインを",trial_num,"回投げ,表の数×",add_damage,"追加ダメージを与えます") 
+        obverse_num = obverse_reverse_list.count("表")                
 
         # 表裏の結果を表示
-        obverse_reverse_list = []
-        for i in random_list:
-            if i == 1:
-                obverse_reverse_list.append("表")
-            else:
-                obverse_reverse_list.append("裏")
-        print(obverse_reverse_list)                   
-        
+        print(obverse_reverse_list)                           
         print("表の数は",obverse_num,"回")
 
         # 合計ダメージ
@@ -88,7 +80,10 @@ class Monster(Card):
         else:
             self.cur_hp -= damage
 
-        print(damage,"のダメージ!" )   
+        if damage > 0:
+            print(damage,"のダメージ!" ) 
+        elif damage < 0:
+            print(damage,"回復!")      
 
     def change_status(self, status):
         """
@@ -109,7 +104,7 @@ class Monster(Card):
         if self.status != []:
             if self.status[0] == "毒":
                 print(player_name,"の",self.name,"は毒のダメージを受けている")
-                return "毒"
+            return self.status[0]
                              
     def show(self):
         """

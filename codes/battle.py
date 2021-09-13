@@ -8,6 +8,7 @@ from player import Player
 from area import Area
 from action import Action
 from deck import Deck
+from check import Check
 
 
 def load_deck(deck_name):
@@ -125,7 +126,7 @@ def end(areas, turn_cnt):
     """
 
     #ポケモンチェック
-    Action.pokemon_check(areas, turn_cnt)
+    Check.pokemon_check(areas, turn_cnt)
 
     # 相手のバトルポケモンを瀕死にさせた場合
     if areas[(turn_cnt+1)%2].battle[-1].cur_hp <= 0:
