@@ -54,6 +54,7 @@ class Action:
 
         return areas
 
+
 #    @staticmethod
 #    def pokemon_check(areas, turn_cnt):
 #        """
@@ -62,3 +63,21 @@ class Action:
 #        for turn in range(2):
 #            if areas[(turn_cnt+turn)%2].battle[-1].status_effect(areas[(turn_cnt+turn)%2].player_name) == "毒":
 #                areas[(turn_cnt+turn)%2].battle[-1].change_cur_hp(10)     
+
+    @staticmethod
+    def set_bench(areas, turn_cnt):
+        """
+        手札からベンチに種ポケモンを出す
+        """
+        areas[turn_cnt%2].set_bench()
+
+        return areas
+
+    @staticmethod
+    def set_energy(areas, turn_cnt):
+        """
+        手札のエネルギーカードを場のポケモンにつける
+        """
+        flag = areas[turn_cnt%2].set_energy()
+
+        return flag, areas
