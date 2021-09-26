@@ -380,7 +380,7 @@ class Data:
                     elif update_num == 8:
                         card_data["cards"][main_id]["skills"]    = Skill.regist(input("技名(例：なきごえ,たいあたり)：").split(","))
                     elif update_num == 9:
-                        card_data["before"][main_id]["skills"]   = input("進化前(たね or ポケモン名)：")
+                        card_data["cards"][main_id]["before"]   = input("進化前(たね or ポケモン名)：")
 
                     if 0 <= update_num <= 1:
                         if checker.common(card_data["cards"][main_id]):

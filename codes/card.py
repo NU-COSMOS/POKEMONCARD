@@ -2,7 +2,7 @@
 """
 カードの定義
 """
-
+import random
 
 class Card:
     """
@@ -35,6 +35,47 @@ class Monster(Card):
         self.has_energy = []  # ついているエネルギーカード
         self.has_item = []  # 持たせた道具
 
+    @staticmethod
+    def coin_toss(trial_num):
+        # ランダムにコインの表裏を出力
+        heads_tails_list   = []
+        random_sample      = ["表","裏"]
+        if trial_num == 'I':
+            while(1):
+                random_num = "".join(random.sample(random_sample,1))
+                heads_tails_list.append(random_num)
+                if random_num == "裏":
+                    break
+        else: 
+            for i in range(int(trial_num)):
+                random_num = "".join(random.sample(random_sample,1))
+                heads_tails_list.append(random_num)   
+
+        # 表の数
+        heads_num = heads_tails_list.count("表") 
+
+        return heads_tails_list, heads_num  
+
+
+#    @staticmethod
+#    def damage_cal_coin(trial_num, base_damage, add_damage):
+#
+#        heads_tails_list, heads_num = Monster.coin_toss(trial_num)
+#
+#        if trial_num == 'I':
+#            print("コインを裏が出るまで投げ,",add_damage,"×表の数 追加ダメージを与えます")
+#        else: 
+#            print("コインを",trial_num,"回投げ,",add_damage,"×表の数 追加ダメージを与えます")              
+#
+#        # 表裏の結果を表示
+#        print(heads_tails_list)                           
+#        print("表の数は",heads_num,"回")
+#
+#        # 合計ダメージ
+#        damage = base_damage + add_damage*heads_num
+#
+#        return damage
+
     def change_cur_hp(self, damage):
         """
         体力を変化させる
@@ -50,22 +91,50 @@ class Monster(Card):
         else:
             self.cur_hp -= damage
 
+        if damage >= 0:
+            print(damage,"ダメージ!" ) 
+        elif damage < 0:
+            print(damage,"回復!")      
+
     def change_status(self, status):
         """
         状態を変化させる
         """
         if status == 'None':
             self.status = []
-
+        elif '回復' in status:
+            recovery_status = status.replace('回復', '')
+            self.status.remove(recovery_status)
+            print(self.name,'は',recovery_status,'から回復した')
         else:
             self.status.append(status)
 
+        self.status = list(set(self.status)) 
+
+    def status_effect(self, player_name):
+        """
+        特殊状態による効果
+        """    
+        if self.status != []:
+            if "毒" in self.status:    
+                print(player_name,"の",self.name,"は毒のダメージを受けている")
+            if "やけど" in self.status:
+                print(player_name,"の",self.name,"はやけどのダメージを受けている")
+            #if "ねむり" in self.status:
+#            if "まひ" in self.status: 
+#            if "こんらん" in self.status:
+
+            return self.status
+            
+                             
     def show(self):
         """
         モンスターの状態を表示
         """
         s = ','.join(self.status)
         print(f'{self.name}({self.cur_hp}/{self.max_hp}) 状態異常：{s}')
+
+
 
 
 
