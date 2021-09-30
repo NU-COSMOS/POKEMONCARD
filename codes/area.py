@@ -260,6 +260,48 @@ class Area:
 
         return flag
 
+    def evolve(self):
+        """
+        場のポケモンを進化させる
+        """
+        # 場のポケモン一覧を表示
+        self.show_play_monsters()
+        p_num = int(input('進化させたいポケモンを選択してください：'))
+
+        # 手札を表示
+        self.show_hands()
+        h_num = int(input('進化後のポケモンを選んでください：'))
+
+        # バトル場のポケモンが選択された場合
+        if p_num == 0:
+            if self.hands[h_num].card_type == 'Monster' and self.hands[h_num].before == self.battle[-1].name:
+                self.battle.append(self.hands.pop(h_num))
+                # 状態の引継ぎ
+                self.battle[-1].cur_hp = self.battle[-1].max_hp - (self.battle[-2].max_hp - self.battle[-2].cur_hp)
+                self.battle[-1].status = self.battle[-2].status
+                self.battle[-1].has_energy = self.battle[-2].has_energy
+                self.battle[-1].has_item = self.battle[-2].has_item
+                self.battle[-2].initialize()
+                print('進化に成功しました')
+
+            else:
+                print('進化に失敗しました')
+
+        # ベンチのポケモンが選択された場合
+        else:
+            if self.hands[h_num].card_type == 'Monster' and self.hands[h_num].before == self.bench[p_num-1][-1].name:
+                self.bench[p_num-1].append(self.hands.pop(h_num))
+                # 状態の引継ぎ
+                self.bench[p_num-1][-1].cur_hp = self.bench[p_num-1][-1].max_hp - (self.bench[p_num-1][-2].max_hp - self.bench[p_num-1][-2].cur_hp)
+                self.bench[p_num-1][-1].status = self.bench[p_num-1][-2].status
+                self.bench[p_num-1][-1].has_energy = self.bench[p_num-1][-2].has_energy
+                self.bench[p_num-1][-1].has_item = self.bench[p_num-1][-2].has_item
+                self.bench[p_num-1][-2].initialize()
+                print('進化に成功しました')
+
+            else:
+                print('進化に失敗しました')
+
     def show_hands(self):
         """
         手札を選択用の番号付きで表示

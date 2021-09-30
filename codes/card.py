@@ -35,6 +35,16 @@ class Monster(Card):
         self.has_energy = []  # ついているエネルギーカード
         self.has_item = []  # 持たせた道具
 
+    def initialize(self):
+        """
+        モンスターの状態を初期化する
+        進化時の進化前やトラッシュに送られる時に使用されることを想定
+        """
+        self.cur_hp = self.max_hp
+        self.status = []
+        self.has_energy = []
+        self.has_item = []
+
     @staticmethod
     def coin_toss(trial_num):
         # ランダムにコインの表裏を出力

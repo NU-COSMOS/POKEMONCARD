@@ -81,3 +81,12 @@ class Action:
         flag = areas[turn_cnt%2].set_energy()
 
         return flag, areas
+
+    @staticmethod
+    def evolve(areas, turn_cnt):
+        """
+        場のポケモンを進化させる
+        """
+        areas[turn_cnt%2].evolve()
+
+        return areas
