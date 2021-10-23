@@ -107,20 +107,11 @@ def turn(areas, turn_cnt):
     energy_flag = False
 
     while(1):
-<<<<<<< HEAD
-
-#        if "眠り" in self.status:
-#            print("眠っている")
-#            break
-
-        act = int(input("行動を選択して下さい\n1:攻撃\n2:終了\n"))
-=======
         act = int(input("行動を選択して下さい\
                         \n1:攻撃 \
                         \n2:手札からたねポケモンを場に出す \
                         \n3:エネルギーカードをつける \
                         \n4:終了"))
->>>>>>> origin
         
         # 攻撃技を使用
         if act == 1:

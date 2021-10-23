@@ -66,9 +66,6 @@ class Action:
             areas[(turn_cnt+1)%2].battle[-1].change_status(block['status'])
 
         return areas
-<<<<<<< HEAD
-    
-=======
 
 
 #    @staticmethod
@@ -97,4 +94,3 @@ class Action:
         flag = areas[turn_cnt%2].set_energy()
 
         return flag, areas
->>>>>>> origin
