@@ -2,6 +2,7 @@
 
 from card import Monster
 from calculation import Calculation
+from skill_effect import Target
 
 class Action:
     """
