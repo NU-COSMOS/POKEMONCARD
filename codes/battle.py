@@ -111,7 +111,9 @@ def turn(areas, turn_cnt):
                         \n1:攻撃 \
                         \n2:手札からたねポケモンを場に出す \
                         \n3:エネルギーカードをつける \
-                        \n4:終了"))
+                        \n4:ポケモンを進化させる \
+                        \n5:終了 \
+                        \n"))
         
         # 攻撃技を使用
         if act == 1:
@@ -132,8 +134,12 @@ def turn(areas, turn_cnt):
             else:
                 energy_flag, areas = Action.set_energy(areas, turn_cnt)
 
-        # ターン終了
+        # 場のポケモンを進化させる
         elif act == 4:
+            areas = Action.evolve(areas, turn_cnt)
+
+        # ターン終了
+        elif act == 5:
             break
 
     # ターン終了時の処理

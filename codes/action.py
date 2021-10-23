@@ -1,8 +1,7 @@
 #-*- codoing:utf-8 -*-
 
 from card import Monster
-from skill_effect import Calculation
-from skill_effect import Target
+from calculation import Calculation
 
 class Action:
     """
@@ -58,8 +57,7 @@ class Action:
                 areas[(turn_cnt+1)%2].bench[target][-1].change_cur_hp(damage) 
             elif block['target'] == 'bench_self':
                 target = Target.target(block,areas,turn_cnt) 
-                areas[(turn_cnt)%2].bench[target][-1].change_cur_hp(damage)                   
-
+                areas[(turn_cnt)%2].bench[target][-1].change_cur_hp(damage) 
 
         # 相手のバトルポケモンに状態異常を付与する
         elif block['block type'] == 'status':
@@ -94,3 +92,12 @@ class Action:
         flag = areas[turn_cnt%2].set_energy()
 
         return flag, areas
+
+    @staticmethod
+    def evolve(areas, turn_cnt):
+        """
+        場のポケモンを進化させる
+        """
+        areas[turn_cnt%2].evolve()
+
+        return areas       
