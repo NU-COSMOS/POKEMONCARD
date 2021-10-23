@@ -2,33 +2,9 @@
 """
 プレイゾーン
 """
-import numpy as np
-import cv2
-from PIL import Image
-
-
-def pil2cv(image):
-    ''' PIL型 -> OpenCV型 '''
-    new_image = np.array(image, dtype=np.uint8)
-    if new_image.ndim == 2:  # モノクロ
-        pass
-    elif new_image.shape[2] == 3:  # カラー
-        new_image = cv2.cvtColor(new_image, cv2.COLOR_RGB2BGR)
-    elif new_image.shape[2] == 4:  # 透過
-        new_image = cv2.cvtColor(new_image, cv2.COLOR_RGBA2BGRA)
-    return new_image
 
 
 class Area:
-    back_h = 500  # 背景画像高さ
-    back_w = 740  # 背景画像幅
-    card_h = 140  # カード画像高さ
-    card_w = 100  # カード画像幅
-    battle_x = (back_w // 2) - (card_w // 2)  # バトル場の左上x座標
-    battle_y = 30  # バトル場の左上y座標
-    bench_x = 140  # ベンチ一番左の左上x座標
-    bench_y = 340  # ベンチ一番左の左上x座標
-
     def __init__(self, player):
         self.deck = player.deck  # 山札
         self.player_name = player.name  # プレイヤー名
@@ -39,7 +15,6 @@ class Area:
         self.max_sides = player.deck.remain() // 10  # サイドにおける枚数
         self.sides = []  # サイド
         # self.studium = []  # スタジアムカード置き場
-        self.area_img = np.full((Area.back_h, Area.back_w, 3), 255.0).astype(np.uint8)  # プレイエリアの画像背景
 
     def draw(self, n):
         """
@@ -124,10 +99,6 @@ class Area:
         手札からベンチにポケモンを出す
         """
         while(1):
-            if len(self.bench) >= 5:
-                print('これ以上ベンチにポケモンを出せません')
-                break
-
             choice = input('ベンチにポケモンを出しますか？(y/n)：')
             if choice == 'y':
                 # 手札を表示
@@ -201,83 +172,3 @@ class Area:
         print('手札')
         for hand in self.hands:
             print(hand.name)
-
-    def get_img(self):
-        """
-        場の画像を画像で表示
-        cv2は日本語対応してないためpilで開いてからcv2に変換
-        """
-        # バトル場のポケモン画像
-        if len(self.battle) != 0:
-            battle_img = Image.open(self.battle[-1].img)
-            battle_img = pil2cv(battle_img)
-            battle_img = cv2.resize(battle_img, (Area.card_w, Area.card_h))
-            self.area_img[Area.battle_y:Area.battle_y+Area.card_h, 
-                        Area.battle_x:Area.battle_x+Area.card_w] = battle_img
-
-        # ベンチポケモンの画像
-        if len(self.bench) != 0:
-            for i, b in enumerate(self.bench):
-                bench_img = Image.open(b[-1].img)
-                bench_img = pil2cv(bench_img)
-                bench_img = cv2.resize(bench_img, (Area.card_w, Area.card_h))
-                print()
-                self.area_img[Area.bench_y:Area.bench_y+Area.card_h, 
-                              Area.bench_x*(i+1)+(i*10):Area.bench_x*(i+1)+(i*10)+Area.card_w] = bench_img
-
-        return self.area_img
-
-    def set_energy(self):
-        """
-        手札のエネルギーカードを場のポケモンにつける
-        """
-        # エネルギー付与成功判定フラグ
-        flag = False
-
-        # 手札を表示
-        self.show_hands()
-
-        num = int(input("付けたいエネルギーカードの番号を入力してください；"))
-
-        if self.hands[num].card_type == 'Energy':
-            # 場のポケモンを確認
-            self.show_play_monsters()
-
-            p_num = int(input('エネルギーをつけたいポケモンを選択してください：'))
-
-            # バトル場のポケモンが選択された場合
-            if p_num == 0:
-                self.battle[-1].has_energy.append(self.hands.pop(num))
-
-            # ベンチのポケモンが選択された場合
-            else:
-                self.bench[p_num-1][-1].has_energy.append(self.hands.pop(num))
-
-            flag = True
-
-        else:
-            print("そのカードはエネルギーではありません")
-
-        return flag
-
-    def show_hands(self):
-        """
-        手札を選択用の番号付きで表示
-        """
-        for n, card in enumerate(self.hands):
-            print(f'{n}:{card.name}')
-
-    def show_play_monsters(self):
-        """
-        場に出ているポケモンの一覧を表示
-        """
-        # バトル場のポケモン
-        print(f'0:{self.battle[-1].name}(バトル)')
-        
-        # ベンチのポケモン
-        # バトル場のポケモンもまとめて表示するため番号がずれる
-        for b in range(len(self.bench)):
-            print(f'{b+1}：{self.bench[b][-1].name}(ベンチ)')
-        
-
-        
