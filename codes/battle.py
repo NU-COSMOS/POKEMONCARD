@@ -102,6 +102,11 @@ def turn(areas, turn_cnt):
     areas[turn_cnt%2].draw(1)
 
     while(1):
+
+#        if "眠り" in self.status:
+#            print("眠っている")
+#            break
+
         act = int(input("行動を選択して下さい\n1:攻撃\n2:終了\n"))
         
         # 攻撃技を使用
