@@ -100,4 +100,4 @@ class Action:
         """
         areas[turn_cnt%2].evolve()
 
-        return areas       
+        return areas
