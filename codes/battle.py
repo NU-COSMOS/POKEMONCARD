@@ -2,7 +2,8 @@
 """
 試合する
 """
-import pickle
+import cv2
+import numpy as np
 
 from player import Player
 from area import Area
@@ -101,13 +102,25 @@ def turn(areas, turn_cnt):
     # ターン開始時にはカードを1枚引く
     areas[turn_cnt%2].draw(1)
 
+    # 行動フラグ
+    # 手番に一度しか行えない行動を管理
+    energy_flag = False
+
     while(1):
+<<<<<<< HEAD
 
 #        if "眠り" in self.status:
 #            print("眠っている")
 #            break
 
         act = int(input("行動を選択して下さい\n1:攻撃\n2:終了\n"))
+=======
+        act = int(input("行動を選択して下さい\
+                        \n1:攻撃 \
+                        \n2:手札からたねポケモンを場に出す \
+                        \n3:エネルギーカードをつける \
+                        \n4:終了"))
+>>>>>>> origin
         
         # 攻撃技を使用
         if act == 1:
@@ -115,8 +128,21 @@ def turn(areas, turn_cnt):
             # 技を使用したらターン終了
             break
 
-        # ターン終了
+        # 手札から種ポケモンを場に出す
         elif act == 2:
+            areas = Action.set_bench(areas, turn_cnt)
+
+        # 手札からエネルギーカードを場のポケモンにつける
+        # 自分のターンに一回しか使用不可
+        elif act == 3:
+            if energy_flag:
+                print('その行動はもう行いました')
+
+            else:
+                energy_flag, areas = Action.set_energy(areas, turn_cnt)
+
+        # ターン終了
+        elif act == 4:
             break
 
     # ターン終了時の処理
@@ -153,8 +179,10 @@ def show(areas):
     """
     場の状況を表示
     """
-    for area in areas:
-        area.show()
+    all_area = np.concatenate([np.rot90(areas[0].get_img(), 3), np.rot90(areas[1].get_img(), 1)], axis = 1)
+    cv2.imshow('Field', all_area)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 def progress(areas):
