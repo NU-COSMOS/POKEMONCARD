@@ -320,6 +320,3 @@ class Area:
         # バトル場のポケモンもまとめて表示するため番号がずれる
         for b in range(len(self.bench)):
             print(f'{b+1}：{self.bench[b][-1].name}(ベンチ)')
-        
-
-        

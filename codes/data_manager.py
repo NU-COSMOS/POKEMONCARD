@@ -498,6 +498,9 @@ class Skill:
                     print("存在しない状態異常が入力されました")
                 blocks.append(block)
 
+            if block_type != "Q":
+                target = input("技の対象を選択してください 選択肢(battle_self, battle_opponent, bench_self, bench_opponent)：")
+                block["target"] = target
 
             elif block_type == "Q":
                 break
