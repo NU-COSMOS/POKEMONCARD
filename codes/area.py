@@ -268,7 +268,7 @@ class Area:
         
         if len(self.bench) != 0:
             for b in self.bench:
-                cap = cv2.VideoCapture('../hp_gauge.mp4')
+                cap = cv2.VideoCapture('../hp_gauge2.mp4')
                 cap_list.append(cap) 
 
                 if b[-1].turn_damage[-1] == turn_cnt:
@@ -294,14 +294,21 @@ class Area:
         return cap_list, start_frame_list, end_frame_list, place_list
 
     @staticmethod
-    def get_frame_img(frame): 
+    def get_frame_img(frame,place): 
         """
         特定フレームの体力ゲージ画像取得
         """ 
         hp_num = str(frame+1).zfill(3) 
-        file_name = '../HP_gauge/HP'+hp_num+'.jpg'
+        if place <= 1:
+            file_name = '../HP_gauge/HP'+hp_num+'.jpg'
+            rw = int(906/4)
+            rh = int(386/4)
+        elif place >= 2: 
+            file_name = '../HP_gauge2/HP'+hp_num+'.jpg' 
+            rw = int(866/5)
+            rh = int(137/5)              
         frame_img = cv2.imread(file_name)
-        frame_img = cv2.resize(frame_img, (int(906/4),int(386/4)))
+        frame_img = cv2.resize(frame_img, (rw,rh))
 
         return frame_img
 

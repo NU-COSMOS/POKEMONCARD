@@ -179,7 +179,8 @@ def show(areas,turn_cnt):
     all_area = np.concatenate([np.rot90(areas[0].get_img(), 3), np.rot90(areas[1].get_img(), 1)], axis = 1)
 
     # 体力ゲージの変化動画, 開始フレーム, 終了フレームを取得 
-    # サイズ : 906×386 
+    # サイズ(バトルポケモン用) : 906×386
+    # サイズ(ベンチポケモン用) : 866×137 
     # フレーム数 : 0フレーム(体力最大)～100フレーム(体力0)の101フレーム
     cap_list0, start_frame_list0, end_frame_list0, place_list0 = areas[0].get_cap(turn_cnt, 0)
     cap_list1, start_frame_list1, end_frame_list1, place_list1 = areas[1].get_cap(turn_cnt, 1)
@@ -193,12 +194,12 @@ def show(areas,turn_cnt):
     # 終了フレームの画像を取得 
     end_img_list = []
     for i in range(len(cap_list)):
-        end_img = Area.get_frame_img(end_frame_list[i])
+        end_img = Area.get_frame_img(end_frame_list[i],place_list[i])
         end_img_list.append(end_img)
 
     # 複数のベンチポケモンを表示する際にどれだけ各ベンチポケモンを移動させるかを決める定数
-    bench_h0 = 100
-    bench_h1 = 100
+    bench_h0 = 28
+    bench_h1 = 28
 
     # 開始フレームから動画を開始
     for i in range(len(cap_list)):
@@ -216,20 +217,26 @@ def show(areas,turn_cnt):
       
         for t in range(len(cap_list)):
             delay = 500
+            if place_list[t] <= 1:
+                rw = int(906/4)
+                rh = int(386/4)
+            elif place_list[t] >= 2:
+                rw = int(866/5)
+                rh = int(137/5)            
             # 最終フレームに達した動画から静止画に移行
             if i + start_frame_list[t] < end_frame_list[t]:
-                Frame = cv2.resize(frame_list[t], (int(906/4),int(386/4)))
+                Frame = cv2.resize(frame_list[t], (rw,rh))
             elif i + start_frame_list[t] >= end_frame_list[t]:
                 Frame = end_img_list[t]
         
             if place_list[t] == 0:
-                all_area[0:int(386/4),100:100+int(906/4)] = Frame
+                all_area[0:rh,100:100+rw] = Frame
             elif place_list[t] == 1:    
-                all_area[0:int(386/4),600:600+int(906/4)] = Frame
+                all_area[0:rh,600:600+rw] = Frame
             elif 2 <= place_list[t] and place_list[t] <= 6:
-                all_area[100+bench_h0*(place_list[t]-2):100+bench_h0*(place_list[t]-2)+int(386/4),0:int(906/4)] = Frame
+                all_area[100+bench_h0*(place_list[t]-2):100+bench_h0*(place_list[t]-2)+rh,0:rw] = Frame
             elif 7 <= place_list[t]:
-                all_area[100+bench_h1*(place_list[t]-7):100+bench_h1*(place_list[t]-7)+int(386/4),700:700+int(906/4)] = Frame                    
+                all_area[100+bench_h1*(place_list[t]-7):100+bench_h1*(place_list[t]-7)+rh,700:700+rw] = Frame                    
 
         cv2.imshow("Field",all_area) 
 
