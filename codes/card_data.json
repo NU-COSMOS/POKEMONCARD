@@ -1,0 +1,41 @@
+{
+    "cards": [
+        {
+            "name": "bench_opponent",
+            "card_type": "Monster",
+            "img": "..\\fig\\Pikachu.jpeg",
+            "hp": 100,
+            "types": [
+                "電気"
+            ],
+            "weaks": [
+                "電気"
+            ],
+            "resists": [
+                "電気"
+            ],
+            "escape": [
+                "電気"
+            ],
+            "skills": [
+                {
+                    "name": "bench_opponent",
+                    "block": [
+                        {
+                            "block type": "damage",
+                            "damage type": "normal",
+                            "damage": 10,
+                            "target": "bench_opponent"
+                        }
+                    ],
+                    "energy": [
+                        "電気"
+                    ]
+                }
+            ],
+            "before": "たね",
+            "main_id": 0,
+            "sub_id": 0
+        }
+    ]
+}

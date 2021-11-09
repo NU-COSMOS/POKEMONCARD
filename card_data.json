@@ -1,0 +1,445 @@
+{
+    "cards": [
+        {
+            "name": "ピカチュウ",
+            "card_type": "Monster",
+            "img": "..\\fig\\Pikachu.jpeg",
+            "hp": 50,
+            "types": [
+                "電気"
+            ],
+            "weaks": [
+                "鋼"
+            ],
+            "resists": [
+                "電気"
+            ],
+            "escape": [
+                "炎"
+            ],
+            "skills": [
+                {
+                    "name": "ヘドロばくだん",
+                    "block": [
+                        {
+                            "block type": "damage",
+                            "damage type": "normal",
+                            "damage": 10
+                        },
+                        {
+                            "block type": "status",
+                            "status": "毒"
+                        }
+                    ],
+                    "energy": [
+                        "炎"
+                    ]
+                }
+            ],
+            "before": "たね",
+            "main_id": 0,
+            "sub_id": 0
+        },
+        {
+            "name": "ルギア",
+            "card_type": "Monster",
+            "img": "..\\fig\\Lugia.jpg",
+            "hp": 100,
+            "types": [
+                "無"
+            ],
+            "weaks": [
+                "無"
+            ],
+            "resists": [
+                "無"
+            ],
+            "escape": [
+                "炎"
+            ],
+            "skills": [
+                {
+                    "name": "はねる",
+                    "block": [
+                        {
+                            "block type": "damage",
+                            "damage type": "coin",
+                            "trial_num": "I",
+                            "base damage": 10,
+                            "add damage": 10
+                        }
+                    ],
+                    "energy": [
+                        "炎"
+                    ]
+                }
+            ],
+            "before": "たね",
+            "main_id": 1,
+            "sub_id": 1
+        },
+        {
+            "name": "Poppo",
+            "card_type": "Monster",
+            "img": "..\\fig\\Poppo.jpg",
+            "hp": 100,
+            "types": [
+                "無"
+            ],
+            "weaks": [
+                "無"
+            ],
+            "resists": [
+                "無"
+            ],
+            "escape": [
+                "炎"
+            ],
+            "skills": [
+                {
+                    "name": "たいあたり",
+                    "block": [
+                        [
+                            "damage",
+                            20
+                        ]
+                    ],
+                    "energy": [
+                        "炎"
+                    ]
+                }
+            ],
+            "before": "たね",
+            "main_id": 2,
+            "sub_id": 2
+        },
+        {
+            "name": "ルギアEX",
+            "card_type": "Monster",
+            "img": "..\\fig\\Lugia_EX.jpeg",
+            "hp": 100,
+            "types": [
+                "無"
+            ],
+            "weaks": [
+                "無"
+            ],
+            "resists": [
+                "無"
+            ],
+            "escape": [
+                "炎"
+            ],
+            "skills": [
+                {
+                    "name": "たいあたり",
+                    "block": [
+                        {
+                            "block type": "damage",
+                            "damage type": "coin",
+                            "trial_num": "6",
+                            "base damage": 10,
+                            "add damage": 10
+                        }
+                    ],
+                    "energy": [
+                        "炎"
+                    ]
+                }
+            ],
+            "before": "たね",
+            "main_id": 3,
+            "sub_id": 3
+        },
+        {
+            "name": "ギャロップ",
+            "card_type": "Monster",
+            "img": "..\\fig\\Gallop.jpg",
+            "hp": 100,
+            "types": [
+                "無"
+            ],
+            "weaks": [
+                "無"
+            ],
+            "resists": [
+                "無"
+            ],
+            "escape": [
+                "炎"
+            ],
+            "skills": [
+                {
+                    "name": "かえんほうしゃ",
+                    "block": [
+                        [
+                            "continuous damage",
+                            30
+                        ]
+                    ],
+                    "energy": [
+                        "炎"
+                    ]
+                }
+            ],
+            "before": "たね",
+            "main_id": 4,
+            "sub_id": 4
+        },
+        {
+            "name": "ピチュー",
+            "card_type": "Monster",
+            "img": "..\\fig\\Pichu.jpg",
+            "hp": 50,
+            "types": [
+                "電気"
+            ],
+            "weaks": [
+                "鋼"
+            ],
+            "resists": [
+                "電気"
+            ],
+            "escape": [
+                "炎"
+            ],
+            "skills": [
+                {
+                    "name": "電気ショック",
+                    "block": [
+                        [
+                            "add damage",
+                            30,
+                            "coin",
+                            30
+                        ]
+                    ],
+                    "energy": [
+                        "炎"
+                    ]
+                }
+            ],
+            "before": "たね",
+            "main_id": 5,
+            "sub_id": 5
+        },
+        {
+            "name": "ピカチュウ炎",
+            "card_type": "Monster",
+            "img": "..\\fig\\Pikachu.jpeg",
+            "hp": 100,
+            "types": [
+                "炎"
+            ],
+            "weaks": [
+                "炎"
+            ],
+            "resists": [
+                "炎"
+            ],
+            "escape": [
+                "炎"
+            ],
+            "skills": [
+                {
+                    "name": "かえんほうしゃ",
+                    "block": [
+                        {
+                            "block type": "status",
+                            "status": "やけど"
+                        }
+                    ],
+                    "energy": [
+                        "炎"
+                    ]
+                }
+            ],
+            "before": "たね",
+            "main_id": 6,
+            "sub_id": 6
+        },
+        {
+            "name": "ピカチュウねむり",
+            "card_type": "Monster",
+            "img": "..\\fig\\Pikachu.jpeg",
+            "hp": 100,
+            "types": [
+                "炎"
+            ],
+            "weaks": [
+                "炎"
+            ],
+            "resists": [
+                "炎"
+            ],
+            "escape": [
+                "炎"
+            ],
+            "skills": [
+                {
+                    "name": "眠らせる",
+                    "block": [
+                        {
+                            "block type": "status",
+                            "status": "眠り"
+                        }
+                    ],
+                    "energy": [
+                        "炎"
+                    ]
+                }
+            ],
+            "before": "たね",
+            "main_id": 7,
+            "sub_id": 7
+        },
+        {
+            "name": "battle_opponent",
+            "card_type": "Monster",
+            "img": "..\\fig\\Pikachu.jpeg",
+            "hp": 100,
+            "types": [
+                "電気"
+            ],
+            "weaks": [
+                "電気"
+            ],
+            "resists": [
+                "電気"
+            ],
+            "escape": [
+                "電気"
+            ],
+            "skills": [
+                {
+                    "name": "battle_opponent",
+                    "block": [
+                        {
+                            "block type": "damage",
+                            "damage type": "normal",
+                            "damage": 10,
+                            "target": "battle_opponent"
+                        }
+                    ],
+                    "energy": [
+                        "電気"
+                    ]
+                }
+            ],
+            "before": "たね",
+            "main_id": 8,
+            "sub_id": 8
+        },
+        {
+            "name": "battle_self",
+            "card_type": "Monster",
+            "img": "..\\fig\\Pikachu.jpeg",
+            "hp": 100,
+            "types": [
+                "電気"
+            ],
+            "weaks": [
+                "電気"
+            ],
+            "resists": [
+                "電気"
+            ],
+            "escape": [
+                "電気"
+            ],
+            "skills": [
+                {
+                    "name": "battle_self",
+                    "block": [
+                        {
+                            "block type": "damage",
+                            "damage type": "normal",
+                            "damage": 10,
+                            "target": "battle_self"
+                        }
+                    ],
+                    "energy": [
+                        "電気"
+                    ]
+                }
+            ],
+            "before": "たね",
+            "main_id": 9,
+            "sub_id": 9
+        },
+        {
+            "name": "bench_self",
+            "card_type": "Monster",
+            "img": "..\\fig\\Pikachu.jpeg",
+            "hp": 100,
+            "types": [
+                "電気"
+            ],
+            "weaks": [
+                "電気"
+            ],
+            "resists": [
+                "電気"
+            ],
+            "escape": [
+                "電気"
+            ],
+            "skills": [
+                {
+                    "name": "bench_self",
+                    "block": [
+                        {
+                            "block type": "damage",
+                            "damage type": "normal",
+                            "damage": 10,
+                            "target": "bench_self"
+                        }
+                    ],
+                    "energy": [
+                        "電気"
+                    ]
+                }
+            ],
+            "before": "たね",
+            "main_id": 10,
+            "sub_id": 10
+        },
+        {
+            "name": "bench_opponent",
+            "card_type": "Monster",
+            "img": "..\\fig\\Pikachu.jpeg",
+            "hp": 100,
+            "types": [
+                "電気"
+            ],
+            "weaks": [
+                "電気"
+            ],
+            "resists": [
+                "電気"
+            ],
+            "escape": [
+                "電気"
+            ],
+            "skills": [
+                {
+                    "name": "bench_opponent",
+                    "block": [
+                        {
+                            "block type": "damage",
+                            "damage type": "normal",
+                            "damage": 10,
+                            "target": "bench_opponent"
+                        }
+                    ],
+                    "energy": [
+                        "電気"
+                    ]
+                }
+            ],
+            "before": "たね",
+            "main_id": 11,
+            "sub_id": 11
+        }
+    ]
+}
