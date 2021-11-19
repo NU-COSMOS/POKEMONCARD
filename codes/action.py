@@ -50,15 +50,15 @@ class Action:
 
             # 対象となるポケモンに技の効果を発揮する
             if block['target'] == 'battle_opponent':           
-                areas[(turn_cnt+1)%2].battle[-1].change_cur_hp(damage)
+                areas[(turn_cnt+1)%2].battle[-1].change_cur_hp(damage, turn_cnt)
             elif block['target'] == 'battle_self': 
-                areas[(turn_cnt)%2].battle[-1].change_cur_hp(damage)
+                areas[(turn_cnt)%2].battle[-1].change_cur_hp(damage, turn_cnt)
             elif block['target'] == 'bench_opponent':
                 target = Target.target(block,areas,turn_cnt) 
-                areas[(turn_cnt+1)%2].bench[target][-1].change_cur_hp(damage) 
+                areas[(turn_cnt+1)%2].bench[target][-1].change_cur_hp(damage, turn_cnt) 
             elif block['target'] == 'bench_self':
                 target = Target.target(block,areas,turn_cnt) 
-                areas[(turn_cnt)%2].bench[target][-1].change_cur_hp(damage) 
+                areas[(turn_cnt)%2].bench[target][-1].change_cur_hp(damage, turn_cnt) 
 
         # 相手のバトルポケモンに状態異常を付与する
         elif block['block type'] == 'status':

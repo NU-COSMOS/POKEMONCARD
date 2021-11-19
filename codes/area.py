@@ -215,17 +215,102 @@ class Area:
             self.area_img[Area.battle_y:Area.battle_y+Area.card_h, 
                         Area.battle_x:Area.battle_x+Area.card_w] = battle_img
 
-        # ベンチポケモンの画像
-        if len(self.bench) != 0:
-            for i, b in enumerate(self.bench):
-                bench_img = Image.open(b[-1].img)
-                bench_img = pil2cv(bench_img)
-                bench_img = cv2.resize(bench_img, (Area.card_w, Area.card_h))
-                print()
-                self.area_img[Area.bench_y:Area.bench_y+Area.card_h, 
-                              Area.bench_x*(i+1)+(i*10):Area.bench_x*(i+1)+(i*10)+Area.card_w] = bench_img
+        # # ベンチポケモンの画像
+        # if len(self.bench) != 0:
+        #     for i, b in enumerate(self.bench):
+        #         bench_img = Image.open(b[-1].img)
+        #         bench_img = pil2cv(bench_img)
+        #         bench_img = cv2.resize(bench_img, (Area.card_w, Area.card_h))
+        #         print()
+        #         self.area_img[Area.bench_y:Area.bench_y+Area.card_h, 
+        #                       Area.bench_x*(i+1)+(i*10):Area.bench_x*(i+1)+(i*10)+Area.card_w] = bench_img
 
         return self.area_img
+
+    def get_cap(self, turn_cnt, order):
+        """
+        体力ゲージの変化動画の読み込み
+        """
+        cap_list         = []
+        start_frame_list = []
+        end_frame_list   = []
+        
+        # 画像をどこに表示するか決める為のリスト
+        # 0:バトル先攻 1:バトル後攻 2~6:ベンチ先攻0~4 7~11:ベンチ後攻5~9
+        place_list       = []
+        a0               = 2
+        a1               = 7
+
+        if len(self.battle) != 0:
+            cap = cv2.VideoCapture('../hp_gauge.mp4')
+            cap_list.append(cap)
+
+            if self.battle[-1].turn_damage[-1] == turn_cnt:
+                start_hp = self.battle[-1].bef_hp
+            else:
+                start_hp = self.battle[-1].cur_hp
+
+            # 開始フレーム = 100 - (体力変化後/最大体力)*100 四捨五入して整数にする
+            start_frame = round(100 - (start_hp/self.battle[-1].max_hp)*100) 
+            start_frame_list.append(start_frame)
+
+            # 終了フレーム = 100 - (体力変化後/最大体力)*100 四捨五入して整数にする  
+            end_frame   = round(100 - (self.battle[-1].cur_hp/self.battle[-1].max_hp)*100) 
+            end_frame_list.append(end_frame) 
+
+            if order == 0:
+                place_list.append(0)
+            elif order == 1:
+                place_list.append(1)
+            
+
+
+        
+        if len(self.bench) != 0:
+            for b in self.bench:
+                cap = cv2.VideoCapture('../hp_gauge2.mp4')
+                cap_list.append(cap) 
+
+                if b[-1].turn_damage[-1] == turn_cnt:
+                    start_hp = b[-1].bef_hp
+                else:
+                    start_hp = b[-1].cur_hp                
+
+                # 開始フレーム = 100 - (体力変化後/最大体力)*100 四捨五入して整数にする
+                start_frame = round(100 - (start_hp/b[-1].max_hp)*100) 
+                start_frame_list.append(start_frame)
+
+                # 終了フレーム = 100 - (体力変化後/最大体力)*100 四捨五入して整数にする  
+                end_frame   = round(100 - (b[-1].cur_hp/b[-1].max_hp)*100) 
+                end_frame_list.append(end_frame)
+
+                if order == 0:
+                    place_list.append(a0)
+                    a0 += 1
+                elif order == 1:
+                    place_list.append(a1) 
+                    a1 += 1                            
+
+        return cap_list, start_frame_list, end_frame_list, place_list
+
+    @staticmethod
+    def get_frame_img(frame,place): 
+        """
+        特定フレームの体力ゲージ画像取得
+        """ 
+        hp_num = str(frame+1).zfill(3) 
+        if place <= 1:
+            file_name = '../HP_gauge/HP'+hp_num+'.jpg'
+            rw = int(906/4)
+            rh = int(386/4)
+        elif place >= 2: 
+            file_name = '../HP_gauge2/HP'+hp_num+'.jpg' 
+            rw = int(866/5)
+            rh = int(137/5)              
+        frame_img = cv2.imread(file_name)
+        frame_img = cv2.resize(frame_img, (rw,rh))
+
+        return frame_img
 
     def set_energy(self):
         """

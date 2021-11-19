@@ -172,15 +172,86 @@ def end(areas, turn_cnt):
     return areas
 
 
-def show(areas):
+def show(areas,turn_cnt):
     """
     場の状況を表示
     """
     all_area = np.concatenate([np.rot90(areas[0].get_img(), 3), np.rot90(areas[1].get_img(), 1)], axis = 1)
-    cv2.imshow('Field', all_area)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
 
+    # 体力ゲージの変化動画, 開始フレーム, 終了フレームを取得 
+    # サイズ(バトルポケモン用) : 906×386
+    # サイズ(ベンチポケモン用) : 866×137 
+    # フレーム数 : 0フレーム(体力最大)～100フレーム(体力0)の101フレーム
+    cap_list0, start_frame_list0, end_frame_list0, place_list0 = areas[0].get_cap(turn_cnt, 0)
+    cap_list1, start_frame_list1, end_frame_list1, place_list1 = areas[1].get_cap(turn_cnt, 1)
+
+    # 先攻と後攻の動画を1つのリストにまとめる
+    cap_list         = cap_list0 + cap_list1 
+    start_frame_list = start_frame_list0 + start_frame_list1
+    place_list       = place_list0 + place_list1
+    end_frame_list   = end_frame_list0 + end_frame_list1
+
+    # 終了フレームの画像を取得 
+    end_img_list = []
+    for i in range(len(cap_list)):
+        end_img = Area.get_frame_img(end_frame_list[i],place_list[i])
+        end_img_list.append(end_img)
+
+    # 複数のベンチポケモンを表示する際にどれだけ各ベンチポケモンを移動させるかを決める定数
+    bench_h0 = 28
+    bench_h1 = 28
+
+    # 開始フレームから動画を開始
+    for i in range(len(cap_list)):
+        cap_list[i].set(cv2.CAP_PROP_POS_FRAMES, start_frame_list[i])
+
+    x = np.array(start_frame_list)
+    y = np.array(end_frame_list)    
+    
+    # フィールド及び体力ゲージの変化を表示
+    for i in range(max(y-x)+1):
+        frame_list = []
+        for s in range(len(cap_list)):
+            ret, frame = cap_list[s].read()
+            frame_list.append(frame)
+      
+        for t in range(len(cap_list)):
+            delay = 500
+            if place_list[t] <= 1:
+                rw = int(906/4)
+                rh = int(386/4)
+            elif place_list[t] >= 2:
+                rw = int(866/5)
+                rh = int(137/5)            
+            # 最終フレームに達した動画から静止画に移行
+            if i + start_frame_list[t] < end_frame_list[t]:
+                Frame = cv2.resize(frame_list[t], (rw,rh))
+            elif i + start_frame_list[t] >= end_frame_list[t]:
+                Frame = end_img_list[t]
+        
+            if place_list[t] == 0:
+                all_area[0:rh,100:100+rw] = Frame
+            elif place_list[t] == 1:    
+                all_area[0:rh,600:600+rw] = Frame
+            elif 2 <= place_list[t] and place_list[t] <= 6:
+                all_area[100+bench_h0*(place_list[t]-2):100+bench_h0*(place_list[t]-2)+rh,0:rw] = Frame
+            elif 7 <= place_list[t]:
+                all_area[100+bench_h1*(place_list[t]-7):100+bench_h1*(place_list[t]-7)+rh,700:700+rw] = Frame                    
+
+        cv2.imshow("Field",all_area) 
+
+        # 全ての動画が最終フレームに達したとき, waitKeyを0にする
+        cur_frame_list    = [start_frame + i for start_frame in start_frame_list]
+        z = np.array(cur_frame_list)
+        if all(diff >= 0 for diff in z-y):
+            delay = 0
+                    
+        if cv2.waitKey(delay) & 0xFF == ord('q'): 
+            break
+    for u in range(len(cap_list)):               
+        cap_list[u].release()
+    
+    cv2.destroyAllWindows()
 
 def progress(areas):
     """
@@ -192,7 +263,7 @@ def progress(areas):
         areas = turn(areas, turn_cnt)
 
         # 場の状況を表示
-        show(areas)
+        show(areas,turn_cnt)
 
         # 試合終了判定
         if check_end(areas):

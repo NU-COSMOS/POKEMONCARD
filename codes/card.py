@@ -22,6 +22,8 @@ class Monster(Card):
     """
     def __init__(self, dic):
         super().__init__(dic['name'], dic['card_type'], dic['img'], dic['main_id'], dic['sub_id'])
+        self.turn_damage = [-1]    # ダメージを受けた(or回復した)ターン
+        self.bef_hp = dic['hp']  # ダメージを受ける(or回復する)1ターン前の体力
         self.cur_hp = dic['hp']  # 現在の体力
         self.max_hp = dic['hp']  # 体力の最大値
         self.types = dic['types']  # タイプのlist
@@ -66,10 +68,16 @@ class Monster(Card):
 
         return heads_tails_list, heads_num  
 
-    def change_cur_hp(self, damage):
+    def change_cur_hp(self, damage, turn_cnt):
         """
         体力を変化させる
         """
+        # ダメージを受けた(or回復した)ターンを記録
+        self.turn_damage.append(turn_cnt)
+
+        # ダメージを受ける(or回復する)前の体力
+        self.bef_hp = self.cur_hp
+
         # 瀕死の時
         if self.cur_hp - damage <= 0:
             self.cur_hp = 0
@@ -84,7 +92,7 @@ class Monster(Card):
         if damage >= 0:
             print(damage,"ダメージ!" ) 
         elif damage < 0:
-            print(damage,"回復!")      
+            print(damage,"回復!")
 
     def change_status(self, status):
         """
